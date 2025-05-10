@@ -21,6 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MakeTestActivity" />
+        <activity android:name=".TakeTestActivity" />
+        <activity android:name=".MemorizeActivity" />
+        <activity android:name=".QuestionListActivity" />
     </application>
 
 </manifest>
