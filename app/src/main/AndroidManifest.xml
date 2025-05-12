@@ -24,7 +24,7 @@
         <activity android:name=".MakeTestActivity" />
         <activity android:name=".TakeTestActivity" />
         <activity android:name=".MemorizeActivity" />
-        <activity android:name=".QuestionListActivity" />
+        <activity android:name=".SaveConfirmActivity" />
     </application>
 
 </manifest>
