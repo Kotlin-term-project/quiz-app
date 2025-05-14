@@ -20,6 +20,7 @@ class SaveConfirmActivity : AppCompatActivity() {
         val docId = intent.getStringExtra("id")
 
         // 방금 저장한 문제의 데이터 가져 오기
+        var saveQuestion = ""
         if (docId != null) {
             db.collection("questions")
                 .document(docId)
@@ -31,13 +32,15 @@ class SaveConfirmActivity : AppCompatActivity() {
                     val choice3 = doc.getString("3번")
                     val answer = doc.getString("정답")
 
-                    binding.output.text = """
+                    saveQuestion = """
                         문제: $question
                         1. $choice1
                         2. $choice2
                         3. $choice3
                         정답: $answer
                     """.trimIndent()
+
+                    binding.output.text = saveQuestion
                 }
                 .addOnFailureListener {
                     binding.output.text = "문제 불러오기 실패: ${it.message}"

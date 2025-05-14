@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/folder_item_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/folderName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="20sp"/>
+
+</LinearLayout>
+
+<!-- folder_item_background 파일에서 폴더 디자인 하고 있음 -->
+
+
+
+
+
+
+
