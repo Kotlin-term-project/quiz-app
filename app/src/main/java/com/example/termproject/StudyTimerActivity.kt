@@ -3,16 +3,16 @@ package com.example.termproject
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.termproject.databinding.ActivityTimerBinding
 import kotlinx.coroutines.*
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.text.InputType
 import android.widget.EditText
+import com.example.termproject.databinding.ActivityStudytimerBinding
 
 
 class StudyTimerActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityTimerBinding
+    private lateinit var binding: ActivityStudytimerBinding
     private var totalCycles = 4
     private var studyMinutes = 25
     private var isRunning = false
@@ -22,7 +22,7 @@ class StudyTimerActivity : AppCompatActivity() {
     private var remainingSeconds = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityTimerBinding.inflate(layoutInflater)
+        binding = ActivityStudytimerBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
