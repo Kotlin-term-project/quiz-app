@@ -24,12 +24,22 @@ class MakeTestActivity : AppCompatActivity() {
         // 시험 문제 만들고 저장 버튼 누르면 다음 화면에 뜰 내용 저장
         binding.saveBtn.setOnClickListener {
             val question = binding.inputQuestion.text.toString()
-            val answer = binding.answerInput.text.toString()
-            writeFirebase(question, answer)
+            val choice1 = binding.inputChoice1.text.toString()
+            val choice2 = binding.inputChoice2.text.toString()
+            val choice3 = binding.inputChoice3.text.toString()
+            val answer = binding.inputAnswer.text.toString()
 
-            // 저장 버튼을 누르고 나면 바로 문제 목록이 뜨는 화면으로 넘어감
-            val intent = Intent(this, SaveConfirmActivity::class.java)
-            startActivity(intent)
+            // 항목이 하나라도 비어있으면, 저장 하지 않고 다음 화면으로 넘어가지 않음.
+            if (question.isEmpty() || choice1.isEmpty() || choice2.isEmpty() || choice3.isEmpty() || answer.isEmpty()) {
+                Toast.makeText(this, "모든 항목을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
+            // 다 채워졌다면, DB 저장하고 저장 확인 화면으로 넘어감
+            else {
+                writeFirebase(question, choice1, choice2, choice3, answer)
+
+                val intent = Intent(this, SaveConfirmActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         // 뒤로 가기 버튼 구현
@@ -38,17 +48,17 @@ class MakeTestActivity : AppCompatActivity() {
         }
     }
 
-    fun writeFirebase(question: String, answer: String) {
-        val choices = mapOf(
+    fun writeFirebase(question: String, choice1: String, choice2: String, choice3: String, answer: String) {
+        val written = mapOf(
             "문제" to question,
-            "1번" to binding.choice1.text.toString(),
-            "2번" to binding.choice2.text.toString(),
-            "3번" to binding.choice3.text.toString(),
+            "1번" to choice1,
+            "2번" to choice2,
+            "3번" to choice3,
             "정답" to answer
         )
 
         val colRef: CollectionReference = db.collection("questions")
-        val docRef: Task<DocumentReference> = colRef.add(choices)
+        val docRef: Task<DocumentReference> = colRef.add(written)
 
         docRef.addOnSuccessListener {
             Toast.makeText(this, "저장 성공!", Toast.LENGTH_SHORT).show()
