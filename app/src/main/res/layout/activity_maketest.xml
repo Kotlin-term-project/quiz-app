@@ -24,7 +24,7 @@
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/choice1"
+        android:id="@+id/input_choice1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -34,7 +34,7 @@
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/choice2"
+        android:id="@+id/input_choice2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -44,7 +44,7 @@
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/choice3"
+        android:id="@+id/input_choice3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
@@ -54,7 +54,7 @@
         android:singleLine="true" />
 
     <EditText
-        android:id="@+id/answerInput"
+        android:id="@+id/input_answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
