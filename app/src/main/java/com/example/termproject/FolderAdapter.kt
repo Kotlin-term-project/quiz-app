@@ -1,5 +1,6 @@
 package com.example.termproject
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,5 +20,12 @@ class FolderAdapter(val folders: MutableList<String>): RecyclerView.Adapter<Recy
         val binding = (holder as FolderViewHolder).binding
 
         binding.folderName.text = folders[position]
+
+        // 시험 만들기 버튼 구현
+        binding.makeTestBtn.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, MakeTestActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }

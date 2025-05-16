@@ -32,22 +32,26 @@ class MainActivity : AppCompatActivity() {
             folderAdapter.notifyItemInserted(folderList.size - 1)
         }
 
-        // 시험 만들기 버튼 구현
-        binding.makeTestBtn.setOnClickListener {
-            val intent = Intent(this, MakeTestActivity::class.java)
-            startActivity(intent)
+        // 문제 목록 화면으로 가는 버튼 구현
+        binding.mainBtn.setOnClickListener {
+            // 아무 일도 안 일어남
         }
         
-        // 시험 치는 버튼 구현
+        // 시험 치는 화면으로 가는 버튼 구현
         binding.takeTestBtn.setOnClickListener {
             val intent = Intent(this, TakeTestActivity::class.java)
             startActivity(intent)
         }
 
-        // 암기 하기 버튼 구현
-        binding.memorizeBtn.setOnClickListener {
-            val intent = Intent(this, MemorizeActivity::class.java)
+        // 정답률 화면으로 가는 버튼 구현
+        binding.rateBtn.setOnClickListener {
+            val intent = Intent(this, ShowRateActivity::class.java)
             startActivity(intent)
+        }
+
+        // 타이머 화면으로 가는 버튼 구현
+        binding.timerBtn.setOnClickListener {
+
         }
 
         var questionList = ""

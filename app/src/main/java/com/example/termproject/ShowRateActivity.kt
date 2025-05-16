@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.termproject.databinding.ActivityMemorizeBinding
 
 
-class MemorizeActivity : AppCompatActivity() {
+class ShowRateActivity : AppCompatActivity() {
     lateinit var binding: ActivityMemorizeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

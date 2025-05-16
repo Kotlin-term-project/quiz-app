@@ -5,14 +5,31 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="문제 목록"
+        android:textColor="#000"
+        android:textSize="35dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#aaa" />
+
     <Button
-        android:id="@+id/addFolderBtn"
+        android:id="@+id/add_folder_btn"
         android:background="@drawable/add_folder_background"
+        android:drawableStart="@drawable/add_folder_shape"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_margin="10dp"
+        android:paddingLeft="30dp"
+        android:drawablePadding="20dp"
+        android:gravity="start|center_vertical"
         android:text="폴더 추가하기"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textColor="#1F2F98"
         android:textStyle="bold" />
 
@@ -27,24 +44,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
-            android:id="@+id/takeTestBtn"
+            android:id="@+id/main_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="문제 목록" />
+
+        <Button
+            android:id="@+id/take_test_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="시험 치기" />
-        <Button
-            android:id="@+id/memorizeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="암기 하기" />
 
         <Button
-            android:id="@+id/makeTestBtn"
+            android:id="@+id/rate_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="시험 만들기"
+            android:text="정답률"
+            android:layout_weight="1"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/timer_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="타이머"
             android:layout_weight="1"
             android:textStyle="bold" />
     </LinearLayout>
