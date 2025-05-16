@@ -25,6 +25,9 @@
         <activity android:name=".TakeTestActivity" />
         <activity android:name=".MemorizeActivity" />
         <activity android:name=".SaveConfirmActivity" />
+        <activity
+            android:name=".StudyTimerActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
