@@ -32,13 +32,8 @@ class MakeTestActivity : AppCompatActivity() {
             // 항목이 하나라도 비어있으면, 저장 하지 않고 다음 화면으로 넘어가지 않음.
             if (question.isEmpty() || choice1.isEmpty() || choice2.isEmpty() || choice3.isEmpty() || answer.isEmpty()) {
                 Toast.makeText(this, "모든 항목을 입력해주세요.", Toast.LENGTH_SHORT).show()
-            }
-            // 다 채워졌다면, DB 저장하고 저장 확인 화면으로 넘어감
-            else {
+            } else {
                 writeFirebase(question, choice1, choice2, choice3, answer)
-
-                val intent = Intent(this, SaveConfirmActivity::class.java)
-                startActivity(intent)
             }
         }
 
@@ -57,7 +52,13 @@ class MakeTestActivity : AppCompatActivity() {
             "정답" to answer
         )
 
-        val colRef: CollectionReference = db.collection("questions")
+        val folderId = intent.getStringExtra("fId") ?: ""
+
+        val colRef: CollectionReference = db
+            .collection("folders")
+            .document(folderId)
+            .collection("questions")
+
         val docRef: Task<DocumentReference> = colRef.add(written)
 
         docRef.addOnSuccessListener {
@@ -65,7 +66,8 @@ class MakeTestActivity : AppCompatActivity() {
 
             // 문서 ID를 저장 확인 화면에 넘기기
             val intent = Intent(this, SaveConfirmActivity::class.java)
-            intent.putExtra("id", it.id)
+            intent.putExtra("fId", folderId)
+            intent.putExtra("qId", it.id)
             startActivity(intent)
         }
 

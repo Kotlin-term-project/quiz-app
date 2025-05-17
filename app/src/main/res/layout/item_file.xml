@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginHorizontal="10dp"
+    android:fitsSystemWindows="true"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start|center_vertical"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/fileText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="파일"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+

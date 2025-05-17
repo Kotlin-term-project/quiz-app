@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
     android:fitsSystemWindows="true"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
         android:gravity="start|center_vertical"
         android:layout_margin="10dp">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/toggle_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/toggle_shape"
-            android:paddingRight="20dp"/>
+            android:background="@android:color/transparent"
+            android:paddingLeft="10dp"
+            android:paddingRight="25dp"
+            android:contentDescription="폴더 펼치기/접기"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -42,6 +47,15 @@
             android:contentDescription="문제 추가 버튼"/>
 
     </LinearLayout>
+
+    <!-- 파일 리스트 리사이클러뷰 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fileRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:contentDescription="파일명" />
 
 </LinearLayout>
 

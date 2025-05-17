@@ -33,8 +33,9 @@
         android:textColor="#1F2F98"
         android:textStyle="bold" />
 
+    <!-- 폴더 리스트 리사이클러뷰 -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/folderRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -105,12 +106,6 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-
-<!--    <TextView-->
-<!--        android:id="@+id/output"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1" />-->
 
 </LinearLayout>
 
