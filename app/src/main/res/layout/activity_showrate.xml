@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:gravity="center"
-        android:text="암기 테스트 화면"
+        android:text="정답률 보여주는 화면"
         android:textSize="30dp"
         android:textStyle="bold" />
 

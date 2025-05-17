@@ -45,9 +45,9 @@ class SaveConfirmActivity : AppCompatActivity() {
                 .addOnFailureListener {
                     binding.output.text = "문제 불러오기 실패: ${it.message}"
                 }
-        } else {
-            binding.output.text = "문제 ID가 없습니다."
-        }
+        } // else {
+            // binding.output.text = "w."
+        // }
 
         // 메인 화면 가기 버튼 구현
         binding.mainBtn.setOnClickListener {

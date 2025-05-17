@@ -42,38 +42,47 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:background="@drawable/navigation_bar"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/main_btn"
+            android:src="@drawable/nav_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#EEEEEE"
             android:layout_weight="1"
-            android:text="문제 목록" />
+            android:contentDescription="문제 목록" />
 
-        <Button
+        <ImageButton
             android:id="@+id/take_test_btn"
+            android:src="@drawable/nav_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#EEEEEE"
             android:layout_weight="1"
-            android:text="시험 치기" />
+            android:contentDescription="시험 치기"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/rate_btn"
+            android:src="@drawable/nav_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="정답률"
+            android:background="#EEEEEE"
             android:layout_weight="1"
-            android:textStyle="bold" />
+            android:contentDescription="정답률" />
 
-        <Button
+        <ImageButton
             android:id="@+id/timer_btn"
+            android:src="@drawable/nav_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="타이머"
+            android:background="#EEEEEE"
             android:layout_weight="1"
-            android:textStyle="bold" />
+            android:contentDescription="타이머" />
+
     </LinearLayout>
 
 <!--    <TextView-->

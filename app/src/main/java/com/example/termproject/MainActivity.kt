@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         // MainActivity 가는 버튼 구현
         binding.mainBtn.setOnClickListener {
-            // 아무 일도 안 일어남
+            val intent = Intent()
+            startActivity(intent)
         }
         
         // MakeTestActivity 가는 버튼 구현
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // ShowRateAvtivity 가는 버튼 구현
+        // ShowRateActivity 가는 버튼 구현
         binding.rateBtn.setOnClickListener {
             val intent = Intent(this, ShowRateActivity::class.java)
             startActivity(intent)
