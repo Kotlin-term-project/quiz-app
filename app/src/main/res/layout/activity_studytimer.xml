@@ -7,56 +7,156 @@
     tools:context=".StudyTimerActivity"
     android:id="@+id/activityMain">
 
-    <TextView
-        android:id="@+id/cycleSetting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cycles: 4"
-        android:textSize="20sp"
-        android:padding="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <ProgressBar
+        android:id="@+id/progressBarCircle"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="337dp"
+        android:layout_height="333dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/drawable_circle_inner"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/drawable_circle_outer"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/time"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.391" />
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:25:00"
-        android:textSize="50dp"
         android:clickable="true"
         android:focusable="true"
+        android:text="25  :  00"
+        android:textColor="#000000"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.361" />
+        app:layout_constraintVertical_bias="0.439" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/start"
+    <TextView
+        android:id="@+id/cycleSetting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
-        android:text="재생"
-        app:layout_constraintHorizontal_bias="0.157"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time" />
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:text="0 Cycle"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.276" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공부"
+        android:textSize="16sp"
+        android:textColor = "#4455C4"
+        app:layout_constraintTop_toBottomOf="@+id/time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:id="@+id/timeMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25분"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="40dp"/>
+
+
+    <!-- 네비게이션 바 -->
+
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
-        android:text="일시정지"
-        app:layout_constraintHorizontal_bias="0.839"
+        android:layout_marginTop="156dp"
+        android:background="@null"
+        android:src="@drawable/timer_before_start"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/navigation_bar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- 문제 목록 -->
+        <Button
+            android:id="@+id/main_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/nav_main"
+            android:drawablePadding="13dp"
+            android:paddingVertical="15dp"
+            android:layout_weight="1"
+            android:text="문제 목록"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <!-- 시험 치기 -->
+        <Button
+            android:id="@+id/take_test_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/nav_test"
+            android:drawablePadding="10dp"
+            android:paddingVertical="15dp"
+            android:layout_weight="1"
+            android:text="시험 치기"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <!-- 정답률 -->
+        <Button
+            android:id="@+id/rate_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/nav_rate"
+            android:drawablePadding="6dp"
+            android:paddingVertical="15dp"
+            android:layout_weight="1"
+            android:text="정답률"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <!-- 타이머 -->
+        <Button
+            android:id="@+id/timer_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/nav_timer"
+            android:drawablePadding="6dp"
+            android:paddingVertical="15dp"
+            android:layout_weight="1"
+            android:text="타이머"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

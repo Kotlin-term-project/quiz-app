@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Color
 import android.text.InputType
 import android.widget.EditText
 import com.example.termproject.databinding.ActivityStudytimerBinding
@@ -14,7 +16,7 @@ import com.example.termproject.databinding.ActivityStudytimerBinding
 class StudyTimerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStudytimerBinding
     private var totalCycles = 4
-    private var studyMinutes = 25
+    private var studyMinutes = 1
     private var isRunning = false
     private var currentCycle = 1
     private var isBreak = false
@@ -34,15 +36,52 @@ class StudyTimerActivity : AppCompatActivity() {
             showTimeInputDialog()
         }
 
-        binding.start.setOnClickListener {
-            if (!isRunning) {
+        binding.pause.setOnClickListener {
+            if (isRunning) {
+                // 일시정지
+                job?.cancel()
+                isRunning = false
+
+                // 아이콘 변경
+                binding.pause.setImageResource(R.drawable.timer_start)
+
+                // 색상도 회색으로
+                updateState()
+
+                binding.progressBarCircle.progress = if (remainingSeconds == 0) 1 else remainingSeconds
+            } else {
+                // 재생 시작
                 startPomodoro()
+                updateState()
+
+                // 아이콘 변경: ⏸로
+                binding.pause.setImageResource(R.drawable.timer_pause)
             }
         }
 
-        binding.pause.setOnClickListener {
-            job?.cancel()
-            isRunning = false
+        // 네비게이션 버튼들
+        // MainActivity 가는 버튼 구현
+        binding.mainBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        // TestReadyActivity 가는 버튼 구현
+        binding.takeTestBtn.setOnClickListener {
+            val intent = Intent(this, TestReadyActivity::class.java)
+            startActivity(intent)
+        }
+
+        // ShowRateActivity 가는 버튼 구현
+        binding.rateBtn.setOnClickListener {
+            val intent = Intent(this, ShowRateActivity::class.java)
+            startActivity(intent)
+        }
+
+        // StudyTimerActivity 가는 버튼 구현
+        binding.timerBtn.setOnClickListener {
+            val intent = Intent(this, StudyTimerActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -60,20 +99,34 @@ class StudyTimerActivity : AppCompatActivity() {
     }
 
     private fun startTimer(seconds: Int) {
+        val total = if (isBreak) 5 * 60 else studyMinutes * 60
         remainingSeconds = seconds
+
+        binding.progressBarCircle.max = total
+
+        // 바 색상 설정
+        val drawableRes = if (isBreak) R.drawable.drawable_circle_outer_grey else R.drawable.drawable_circle_outer
+        binding.progressBarCircle.progressDrawable = resources.getDrawable(drawableRes, null)
+        binding.progressBarCircle.progress = if (remainingSeconds == 0) 1 else remainingSeconds
+
         job = CoroutineScope(Dispatchers.Main).launch {
             while (remainingSeconds > 0) {
                 delay(1000L)
                 remainingSeconds--
                 updateTimeText(remainingSeconds)
+
+                // 깜빡임 방지용 최소값 유지
+                binding.progressBarCircle.progress = if (remainingSeconds == 0) 1 else remainingSeconds
             }
             onTimerComplete()
         }
     }
 
+
     private fun onTimerComplete() {
+        if (!isRunning) return
         if (isBreak) {
-            // 휴식 끝이면 다음 사이클로
+            // 휴식 끝나고 다음 사이클로
             currentCycle++
             if (currentCycle > totalCycles) {
                 Toast.makeText(this, "모든 사이클 완료!", Toast.LENGTH_SHORT).show()
@@ -89,6 +142,7 @@ class StudyTimerActivity : AppCompatActivity() {
             startTimer(5 * 60)
         }
 
+        updateState()
         updateCycleText()
     }
 
@@ -103,8 +157,39 @@ class StudyTimerActivity : AppCompatActivity() {
     private fun updateTimeText(seconds: Int) {
         val min = seconds / 60
         val sec = seconds % 60
-        binding.time.text = String.format("%02d:%02d", min, sec)
+        binding.time.text = String.format("%02d  :  %02d", min, sec)
     }
+
+    // 공부 <-> 휴식 상태 변경
+    private fun updateState() {
+        if (!isBreak) {
+            binding.state.text = "공부"
+            binding.timeMode.text = "${studyMinutes}분"
+
+            if (isRunning) {
+                binding.state.setTextColor(Color.parseColor("#4455C4"))
+                binding.timeMode.setTextColor(Color.parseColor("#4455C4"))
+                binding.progressBarCircle.progressDrawable =
+                    resources.getDrawable(R.drawable.drawable_circle_outer, null)
+            } else {
+                binding.state.setTextColor(Color.parseColor("#828282"))
+                binding.timeMode.setTextColor(Color.parseColor("#828282"))
+                binding.progressBarCircle.progressDrawable =
+                    resources.getDrawable(R.drawable.drawable_circle_outer_grey, null) // ✅ 회색으로!
+            }
+
+        } else {
+            // 휴식은 원래 회색이므로 동일
+            binding.state.text = "휴식"
+            binding.timeMode.text = "5분"
+            binding.state.setTextColor(Color.parseColor("#828282"))
+            binding.timeMode.setTextColor(Color.parseColor("#828282"))
+            binding.progressBarCircle.progressDrawable =
+                resources.getDrawable(R.drawable.drawable_circle_outer_grey, null)
+        }
+    }
+
+
 
     private fun updateCycleText() {
         binding.cycleSetting.text = "$currentCycle Cycle"
