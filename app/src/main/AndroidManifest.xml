@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MakeTestActivity" />
+        <activity android:name=".TestReadyActivity" />
         <activity android:name=".TakeTestActivity" />
         <activity android:name=".ShowRateActivity" />
         <activity android:name=".SaveConfirmActivity" />

@@ -34,13 +34,12 @@ class MainActivity : AppCompatActivity() {
 
         // MainActivity 가는 버튼 구현
         binding.mainBtn.setOnClickListener {
-            val intent = Intent()
-            startActivity(intent)
+
         }
         
-        // MakeTestActivity 가는 버튼 구현
+        // TestReadyActivity 가는 버튼 구현
         binding.takeTestBtn.setOnClickListener {
-            val intent = Intent(this, TakeTestActivity::class.java)
+            val intent = Intent(this, TestReadyActivity::class.java)
             startActivity(intent)
         }
 
