@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         // MainActivity 가는 버튼 구현
         binding.mainBtn.setOnClickListener {
-
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
         
         // TestReadyActivity 가는 버튼 구현

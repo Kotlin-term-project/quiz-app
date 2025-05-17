@@ -20,9 +20,28 @@ class TestReadyActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 뒤로 가기 버튼 구현
-        binding.backBtn.setOnClickListener {
-            finish()
+        // MainActivity 가는 버튼 구현
+        binding.mainBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        // TestReadyActivity 가는 버튼 구현
+        binding.takeTestBtn.setOnClickListener {
+            val intent = Intent(this, TestReadyActivity::class.java)
+            startActivity(intent)
+        }
+
+        // ShowRateActivity 가는 버튼 구현
+        binding.rateBtn.setOnClickListener {
+            val intent = Intent(this, ShowRateActivity::class.java)
+            startActivity(intent)
+        }
+
+        // StudyTimerActivity 가는 버튼 구현
+        binding.timerBtn.setOnClickListener {
+            val intent = Intent(this, StudyTimerActivity::class.java)
+            startActivity(intent)
         }
     }
 }

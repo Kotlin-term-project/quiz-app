@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,12 +14,69 @@
         android:textSize="30dp"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/backBtn"
+    <!-- 네비게이션 바 -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="뒤로가기"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:layout_height="100dp"
+        android:background="@drawable/navigation_bar"
+        android:gravity="center"
+        android:orientation="horizontal">
 
+        <!-- 문제 목록 -->
+        <Button
+            android:id="@+id/main_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/nav_main"
+            android:drawablePadding="13dp"
+            android:paddingVertical="15dp"
+            android:layout_weight="1"
+            android:text="문제 목록"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <!-- 시험 치기 -->
+        <Button
+            android:id="@+id/take_test_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/nav_test"
+            android:drawablePadding="10dp"
+            android:paddingVertical="15dp"
+            android:layout_weight="1"
+            android:text="시험 치기"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <!-- 정답률 -->
+        <Button
+            android:id="@+id/rate_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/nav_rate"
+            android:drawablePadding="6dp"
+            android:paddingVertical="15dp"
+            android:layout_weight="1"
+            android:text="정답률"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <!-- 타이머 -->
+        <Button
+            android:id="@+id/timer_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableTop="@drawable/nav_timer"
+            android:drawablePadding="6dp"
+            android:paddingVertical="15dp"
+            android:layout_weight="1"
+            android:text="타이머"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 </LinearLayout>
