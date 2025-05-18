@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_marginHorizontal="10dp"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="10dp"
     android:fitsSystemWindows="true"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_weight="0.8"
+        android:background="#C5C5C5"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
         android:gravity="start|center_vertical"
         android:layout_margin="10dp">
 
+        <ImageButton
+            android:id="@+id/file_data_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/file_shape"
+            android:background="@android:color/transparent"
+            android:paddingRight="20dp"
+            android:contentDescription="파일 안에 저장된 문제 보여줌"/>
+
         <TextView
-            android:id="@+id/fileText"
+            android:id="@+id/file_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="파일"/>
-
+            android:gravity="center_vertical"
+            android:text="파일"
+            android:textColor="#5097BE"
+            android:textSize="17sp"/>
     </LinearLayout>
 
 </LinearLayout>

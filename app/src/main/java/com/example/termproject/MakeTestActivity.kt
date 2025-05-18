@@ -8,6 +8,7 @@ import com.example.termproject.databinding.ActivityMaketestBinding
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -49,7 +50,7 @@ class MakeTestActivity : AppCompatActivity() {
             "1번" to choice1,
             "2번" to choice2,
             "3번" to choice3,
-            "정답" to answer
+            "정답" to answer,
         )
 
         val folderId = intent.getStringExtra("fId") ?: ""
@@ -64,11 +65,11 @@ class MakeTestActivity : AppCompatActivity() {
         docRef.addOnSuccessListener {
             Toast.makeText(this, "저장 성공!", Toast.LENGTH_SHORT).show()
 
-            // 문서 ID를 저장 확인 화면에 넘기기
-            val intent = Intent(this, SaveConfirmActivity::class.java)
-            intent.putExtra("fId", folderId)
-            intent.putExtra("qId", it.id)
-            startActivity(intent)
+            // folderID, questionId를 SaveConfirmActivity 로 넘기기
+            val saveConfirmIntent = Intent(this, SaveConfirmActivity::class.java)
+            saveConfirmIntent.putExtra("fId", folderId)
+            saveConfirmIntent.putExtra("qId", it.id)
+            startActivity(saveConfirmIntent)
         }
 
         docRef.addOnFailureListener {

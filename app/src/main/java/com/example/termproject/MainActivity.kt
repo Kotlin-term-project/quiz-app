@@ -28,10 +28,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 보낸 folderID 받기
+        // 보낸 folderID (fId) 받기
         val folderId = intent.getStringExtra("fId")
 
-        // 보낸 questionID 받기
+        // 보낸 questionID (qId) 받기
         val questionId = intent.getStringExtra("qId")
 
         loadFoldersWithFiles()
@@ -44,10 +44,35 @@ class MainActivity : AppCompatActivity() {
 
         // 폴더 추가하기 버튼
         binding.addFolderBtn.setOnClickListener {
-            val folderName = "새 폴더 ${folderList.size + 1}"
 
-            writeFirebase(folderName)
+            // material Dialog 사용 해서 UI 자체 제작 고민 중
 
+            // 폴더명 입력 받기
+            val builder = android.app.AlertDialog.Builder(this)
+            builder.setTitle("폴더명")
+
+            // 입력 필드 추가
+            val input = android.widget.EditText(this)
+            builder.setView(input)
+
+            // 저장 버튼 클릭 시
+            builder.setPositiveButton("저장") { dialog, which ->
+                val folderName = input.text.toString()
+
+                if (folderName.isNotEmpty()) {
+                    writeFirebase(folderName)
+                } else {
+                    Toast.makeText(this, "폴더명을 입력해주세요", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            // 취소 버튼 클릭 시
+            builder.setNegativeButton("취소") { dialog, which ->
+                dialog.cancel()
+            }
+
+            // dialog 보여 주기
+            builder.show()
         }
 
         // MainActivity 가는 버튼 구현
@@ -79,7 +104,7 @@ class MainActivity : AppCompatActivity() {
     fun writeFirebase(folderName: String) {
         val written = mapOf(
             "폴더명" to folderName,
-            "생성시간" to FieldValue.serverTimestamp()
+            "생성시간" to FieldValue.serverTimestamp()  // 폴더를 생성 시간 순으로 나열할 데이터 저장
         )
 
         val colRef: CollectionReference = db.collection("folders")
@@ -103,7 +128,7 @@ class MainActivity : AppCompatActivity() {
 
         // 문제를 저장한 폴더를 불러옴
         db.collection("folders")
-            .orderBy("생성시간", Query.Direction.ASCENDING)
+            .orderBy("생성시간", Query.Direction.ASCENDING)    // 폴더 받아 오는 순서 지정
             .get()
             .addOnSuccessListener { folderSnapshot ->
                 folderList.clear()
@@ -125,7 +150,6 @@ class MainActivity : AppCompatActivity() {
 
                             for (questionDoc in questionSnapshot.documents) {
                                 val file = FileData(
-                                    id = questionDoc.id,
                                     question = questionDoc.getString("문제") ?: "",
                                     choice1 = questionDoc.getString("1번") ?: "",
                                     choice2 = questionDoc.getString("2번") ?: "",

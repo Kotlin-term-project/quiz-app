@@ -16,7 +16,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#aaa" />
+        android:background="#AFAFAF" />
 
     <Button
         android:id="@+id/add_folder_btn"
@@ -32,6 +32,11 @@
         android:textSize="20sp"
         android:textColor="#1F2F98"
         android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C5C5C5" />
 
     <!-- 폴더 리스트 리사이클러뷰 -->
     <androidx.recyclerview.widget.RecyclerView
