@@ -2,6 +2,7 @@ package com.example.termproject
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.termproject.databinding.ActivitySaveconfirmBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,7 +25,6 @@ class SaveConfirmActivity : AppCompatActivity() {
         val folderId = intent.getStringExtra("fId")
 
         // 방금 저장한 문제의 데이터 가져 오기
-        var saveQuestion = ""
         if (questionId != null) {
             db.collection("folders")
                 .document(folderId!!)
@@ -38,21 +38,18 @@ class SaveConfirmActivity : AppCompatActivity() {
                     val choice3 = doc.getString("3번")
                     val answer = doc.getString("정답")
 
-                    saveQuestion = """
-                        문제: $question
-                        1. $choice1
-                        2. $choice2
-                        3. $choice3
-                        정답: $answer
-                    """.trimIndent()
+                    binding.questionText.text = question
+                    binding.choice1Text.text = choice1
+                    binding.choice2Text.text = choice2
+                    binding.choice3Text.text = choice3
+                    binding.answerText.text = answer
 
-                    binding.output.text = saveQuestion
                 }
                 .addOnFailureListener {
-                    binding.output.text = "문제 불러오기 실패: ${it.message}"
+                    Toast.makeText(this, "문제 불러오기 실패: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            binding.output.text = "잘못된 접근입니다."
+            Toast.makeText(this, "잘못된 접근입니다.", Toast.LENGTH_SHORT).show()
         }
 
         // 메인 화면 가기 버튼 구현
