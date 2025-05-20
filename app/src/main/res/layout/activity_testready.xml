@@ -8,18 +8,100 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:gravity="center"
-        android:text="테스트 시작 전 화면"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:layout_margin="10dp"
+        android:drawableStart="@drawable/nav_test"
+        android:drawablePadding="10dp"
+        android:text="시험 치기"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="35dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#AFAFAF" />
+
+    <!-- 폴더 선탹 부분 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginVertical="80dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="#000"
+            android:text="폴더 선택"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp" />
+
+        <Button
+            android:id="@+id/pick_folder_btn"
+            android:layout_width="105dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:text="목록"
+            android:textSize="18dp"
+            android:textAllCaps="false"
+            android:drawableEnd="@drawable/toggle_shape"
+            android:background="@drawable/pick_folder_background"
+            android:paddingVertical="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="30dp"
+            android:layout_marginRight="45dp"/>
+
+    </LinearLayout>
+
+    <!-- 타이머 설정 부분 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top|center"
+            android:layout_weight="1"
+            android:textColor="#000"
+            android:text="타이머"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:paddingHorizontal="6dp"
+            android:layout_marginLeft="25dp" />
+
+        <Button
+            android:id="@+id/set_timer_btn"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:gravity="top|center"
+            android:layout_weight="2"
+            android:text="시간 설정"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:background="@drawable/pick_timer_background"
+            android:paddingVertical="10dp"
+            android:layout_marginRight="45dp" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/go_test_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:paddingVertical="15dp"
+        android:background="@drawable/go_test_background"
         android:text="시험 시작"
         android:textSize="20dp"
+        android:textColor="#fff"
         android:textStyle="bold" />
 
     <!-- 네비게이션 바 -->
