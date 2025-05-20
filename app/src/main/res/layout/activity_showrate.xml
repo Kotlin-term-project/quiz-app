@@ -5,14 +5,59 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:gravity="center"
-        android:text="정답률 보여주는 화면"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:gravity="bottom|center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/blue_point"
+            android:drawablePadding="15dp"
+            android:paddingRight="5dp"
+            android:text="정답"
+            android:textSize="25dp"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="NN개 (00%)"
+            android:textSize="25dp"
+            android:textColor="#0075E9" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:gravity="top|center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/grey_point"
+            android:drawablePadding="15dp"
+            android:paddingRight="5dp"
+            android:text="오답"
+            android:textSize="25dp"
+            android:textColor="#000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="NN개 (00%)"
+            android:textSize="25dp"
+            android:textColor="#B6B6B6" />
+
+    </LinearLayout>
 
     <!-- 네비게이션 바 -->
     <LinearLayout
