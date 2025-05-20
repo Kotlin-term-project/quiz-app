@@ -32,8 +32,9 @@ class TakeTestActivity : AppCompatActivity() {
             loadQuestion(0)
         }
 
-        binding.folderIdText.text = folderId
-        binding.timeText.text = time
+        // 데이터 베이스는 받아왔으니 나중에 추가 구현
+        // binding.folderIdText.text = folderId
+        // binding.timeText.text = time
 
         // 다음 문제로 넘어 가는 버튼 구현
         binding.nextBtn.setOnClickListener {
@@ -56,9 +57,9 @@ class TakeTestActivity : AppCompatActivity() {
         }
 
         // 그만 두기 버튼
-        binding.stopBtn.setOnClickListener {
-            finish()
-        }
+//        binding.stopBtn.setOnClickListener {
+//            finish()
+//        }
     }
 
     // 문제를 화면에 표시

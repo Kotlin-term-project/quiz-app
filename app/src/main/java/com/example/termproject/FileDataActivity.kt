@@ -29,18 +29,6 @@ class FileDataActivity: AppCompatActivity() {
         binding.choice2Text.text = choice2
         binding.choice3Text.text = choice3
         binding.answerText.text = answer
-//        // 화면 출력
-//        var saveFileData = ""
-//
-//        saveFileData = """
-//            문제: $question
-//            1. $choice1
-//            2. $choice2
-//            3. $choice3
-//            정답: $answer
-//        """.trimIndent()
-//
-//        binding.output.text = saveFileData
 
         // 뒤로 가기 버튼 구현
         binding.backBtn.setOnClickListener {
