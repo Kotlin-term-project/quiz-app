@@ -2,6 +2,7 @@ package com.example.termproject
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.termproject.databinding.ActivityFiledataBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,18 +24,23 @@ class FileDataActivity: AppCompatActivity() {
         val choice3 = intent.getStringExtra("choice3")
         val answer = intent.getStringExtra("answer")
 
-        // 화면 출력
-        var saveFileData = ""
-
-        saveFileData = """
-            문제: $question
-            1. $choice1
-            2. $choice2
-            3. $choice3
-            정답: $answer
-        """.trimIndent()
-
-        binding.output.text = saveFileData
+        binding.questionText.text = question
+        binding.choice1Text.text = choice1
+        binding.choice2Text.text = choice2
+        binding.choice3Text.text = choice3
+        binding.answerText.text = answer
+//        // 화면 출력
+//        var saveFileData = ""
+//
+//        saveFileData = """
+//            문제: $question
+//            1. $choice1
+//            2. $choice2
+//            3. $choice3
+//            정답: $answer
+//        """.trimIndent()
+//
+//        binding.output.text = saveFileData
 
         // 뒤로 가기 버튼 구현
         binding.backBtn.setOnClickListener {

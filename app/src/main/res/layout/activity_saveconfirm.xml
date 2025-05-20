@@ -1,46 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/question_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/question_text"
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/main_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:textColor="#0C5183"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginRight="12dp"
+        android:layout_marginLeft="12dp"/>
+    <!-- 문제 입력 컨테이너 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="195dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="15dp"
+        android:layout_marginVertical="15dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="문제"
+                android:textSize="22dp"
+                android:textColor="#000000"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/question_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="8dp"
+            android:layout_marginHorizontal="15dp"
+            android:gravity="start"
+            android:textSize="14dp"
+            android:background="@drawable/make_test_question_edittext_box" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:orientation="vertical"
+        android:paddingHorizontal="15dp"
+        android:layout_marginBottom="20dp">
 
-    <TextView
-        android:id="@+id/choice1_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/choice2_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/choice3_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/answer_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <Button
-        android:id="@+id/main_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="메인화면 가기"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="답변"
+                android:textColor="#000000"
+                android:textSize="22sp"
+                android:padding="10dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="7dp">
+            <TextView
+                android:id="@+id/choice1_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textSize="14dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:background="@drawable/make_test_answer_wrong_box" />
+            <Space android:layout_width="match_parent" android:layout_height="25dp"/>
+            <TextView
+                android:id="@+id/choice2_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textSize="14dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:background="@drawable/make_test_answer_wrong_box" />
+            <Space android:layout_width="match_parent" android:layout_height="25dp"/>
+            <TextView
+                android:id="@+id/choice3_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/make_test_answer_wrong_box"
+                android:gravity="start"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:textSize="14dp" />
+            <Space android:layout_width="match_parent" android:layout_height="25dp"/>
+            <TextView
+                android:id="@+id/answer_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textSize="14dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:background="@drawable/make_test_answer_right_box" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
