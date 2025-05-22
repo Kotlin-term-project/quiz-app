@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -10,24 +10,63 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:paddingHorizontal="16dp">
+
+            <!-- 왼쪽 나가기 버튼 -->
             <ImageView
+                android:id="@+id/stopBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/nav_test" />
-            <TextView
+                android:src="@drawable/take_test_nagagi"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <!-- 중앙 콘텐츠 그룹 -->
+            <LinearLayout
+                android:id="@+id/center_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="시험 치기"
-                android:textSize="25dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/nav_test" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="시험 치기"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/submit_test_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제출"
+                android:textSize="18dp"
                 android:textStyle="bold"
-                android:textColor="#000000"/>
-        </LinearLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <View
             android:layout_width="match_parent"
@@ -36,10 +75,44 @@
             android:layout_marginRight="12dp"
             android:layout_marginLeft="12dp"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="13dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/take_test_timer"
+                android:layout_marginRight="8dp"/>
+            <TextView
+                android:id="@+id/timer_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:textSize="25dp"
+                android:textColor="@color/black"
+                android:layout_marginRight="13dp"/>
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/timer_progress"
+                android:layout_width="0dp"
+                android:layout_height="23dp"
+                android:layout_weight="1"
+                android:progress="100"
+                android:max="100"
+                android:progressDrawable="@drawable/take_test_timer_bar"
+                android:backgroundTint="#E0E0E0"/>
+
+        </LinearLayout>
+
         <!-- 문제 입력 컨테이너 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:orientation="vertical"
             android:paddingHorizontal="15dp">
@@ -68,9 +141,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
                 <TextView
+                    android:id="@+id/question_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="< 0 / 0 >"
+                    android:text="0 / 0"
                     android:textColor="#000000"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -89,7 +163,8 @@
                 android:gravity="start"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="8dp"
-                android:textSize="14dp" />
+                android:textSize="18dp"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
         <LinearLayout
@@ -129,6 +204,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <ImageView
+                        android:id="@+id/choice1"
                         android:layout_width="27dp"
                         android:layout_height="27dp"
                         android:src="@drawable/take_test_check_box" />
@@ -140,7 +216,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:textSize="14dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/black"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="4dp"
                         android:background="@drawable/take_test_answer_box" />
@@ -151,6 +228,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <ImageView
+                        android:id="@+id/choice2"
                         android:layout_width="27dp"
                         android:layout_height="27dp"
                         android:src="@drawable/take_test_check_box" />
@@ -162,7 +240,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:textSize="14dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/black"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="4dp"
                         android:background="@drawable/take_test_answer_box" />
@@ -173,6 +252,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <ImageView
+                        android:id="@+id/choice3"
                         android:layout_width="27dp"
                         android:layout_height="27dp"
                         android:src="@drawable/take_test_check_box" />
@@ -184,7 +264,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:textSize="14dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/black"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="4dp"
                         android:background="@drawable/take_test_answer_box" />
@@ -195,6 +276,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <ImageView
+                        android:id="@+id/choice_answer"
                         android:layout_width="27dp"
                         android:layout_height="27dp"
                         android:src="@drawable/take_test_check_box" />
@@ -206,7 +288,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:textSize="14dp"
+                        android:textSize="16dp"
+                        android:textColor="@color/black"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="4dp"
                         android:background="@drawable/take_test_answer_box" />
@@ -225,7 +308,10 @@
                 android:id="@+id/prev_btn"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/take_test_prev" />
+                android:src="@drawable/take_test_prev"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"/>
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -234,16 +320,10 @@
                 android:id="@+id/next_btn"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/take_test_next" />
+                android:src="@drawable/take_test_next"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"/>
         </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/backBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="뒤로가기"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
 </LinearLayout>
