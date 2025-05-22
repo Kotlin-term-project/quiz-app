@@ -89,6 +89,7 @@ class TakeTestActivity : AppCompatActivity() {
             finish()
         }
     }
+
     fun startTimer() {
         timerJob?.cancel() // 기존 타이머 중지
         binding.timerText.text = totalTime.toString()
