@@ -116,8 +116,8 @@ class TestReadyActivity : AppCompatActivity() {
 
                     val intent = Intent(this, TakeTestActivity::class.java)
                     intent.putExtra("folderName", selectedFolder.name)
-                    intent.putParcelableArrayListExtra("fileData", ArrayList(fileList))
                     intent.putExtra("time", selectedTime)
+                    intent.putParcelableArrayListExtra("fileData", ArrayList(fileList))
                     startActivity(intent)
                 }
                 .addOnFailureListener {
@@ -147,7 +147,7 @@ class TestReadyActivity : AppCompatActivity() {
     }
 
     fun showDropdownTime() {
-        val data = listOf("15s", "30s", "1min", "3min", "5min", "10min")
+        val data = listOf("5s", "10s", "15s", "30s", "45s", "1min")
 
         val popupMenu= PopupMenu(this, binding.setTimerBtn)
         val menu = popupMenu.menu

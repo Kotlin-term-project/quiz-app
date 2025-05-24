@@ -1,6 +1,8 @@
 package com.example.termproject
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.termproject.databinding.ActivityTaketestBinding
@@ -20,7 +22,7 @@ class TakeTestActivity : AppCompatActivity() {
     private var currentQuestionNum = 0
     private var questionList = mutableListOf<FileData>()
     private var timerJob: Job? = null
-    private var totalTime = 15
+    private var totalTime: Int = 0
     private lateinit var checkBoxes: List<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +30,21 @@ class TakeTestActivity : AppCompatActivity() {
         binding = ActivityTaketestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val folderId = intent.getStringExtra("folderName")
+        // 시험 준비 화면에서 데이터 받아 오기
+        val folderName = intent.getStringExtra("folderName")
         val fileDataList = intent.getParcelableArrayListExtra<FileData>("fileData")
-        val time = intent.getStringExtra("time")
+        val time = intent.getStringExtra("time") ?: ""
+
+        // 시간의 숫자 부분만 추출
+        val numPart = Regex("\\d+").find(time)?.value?.toInt() ?: 0
+        val isMinutes = time.contains("min")
+
+        totalTime = if (isMinutes) numPart * 60 else numPart
+        binding.folderNameText.text = folderName.toString()
+
 
         // 체크박스 리스트
-        checkBoxes = listOf(
+        checkBoxes = listOf (
             binding.choice1,
             binding.choice2,
             binding.choice3,
@@ -65,30 +76,43 @@ class TakeTestActivity : AppCompatActivity() {
 
         // 다음 문제로 넘어 가는 버튼 구현
         binding.nextBtn.setOnClickListener {
+            val isChecked = checkBoxes.any { it.isSelected }
+
+            if (!isChecked) {
+                Toast.makeText(this, "답안을 선택하세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             if (currentQuestionNum < questionList.size - 1) {
                 currentQuestionNum++
                 loadQuestion(currentQuestionNum)
-            } else {
-                Toast.makeText(this, "다음 문제가 없습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
         // 이전 문제로 가는 버튼 구현
-        binding.prevBtn.setOnClickListener {
-            if (currentQuestionNum > 0) {
-                currentQuestionNum--
-                loadQuestion(currentQuestionNum)
-            } else {
-                Toast.makeText(this, "이전 문제가 없습니다.", Toast.LENGTH_SHORT).show()
-            }
+//        binding.prevBtn.setOnClickListener {
+//            if (currentQuestionNum > 0) {
+//                currentQuestionNum--
+//                loadQuestion(currentQuestionNum)
+//            } else {
+//                Toast.makeText(this, "이전 문제가 없습니다.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+
+        // 데이터 같이 넘겨야 함
+        // 제출 하기 버튼 구현
+        binding.submitBtn.setOnClickListener {
+            val intent = Intent(this, AfterTestActivity::class.java)
+            // putExtra("data", data)
+            startActivity(intent)
         }
 
-
-        // 그만 두기 버튼
+        // 그만 두기 버튼 구현
         binding.stopBtn.setOnClickListener {
             finish()
         }
     }
+
 
     fun startTimer() {
         timerJob?.cancel() // 기존 타이머 중지
@@ -130,6 +154,14 @@ class TakeTestActivity : AppCompatActivity() {
             binding.choice2Text.text = question.choice2
             binding.choice3Text.text = question.choice3
             binding.answerText.text = question.answer
+
+            if (num == questionList.size - 1) {
+                binding.submitBtn.visibility = View.VISIBLE
+                binding.nextBtn.visibility = View.GONE
+
+            } else {
+                binding.submitBtn.visibility = View.GONE
+            }
 
             startTimer()
             updateQuestionCounter()
