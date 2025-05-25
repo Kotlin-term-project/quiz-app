@@ -13,11 +13,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Job
 import android.widget.ImageView
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 
 
 class TakeTestActivity : AppCompatActivity() {
     lateinit var binding: ActivityTaketestBinding
     private val db = FirebaseFirestore.getInstance()
+
+    private var folderName: String? = null
+    private var folderId: String? = null
 
     private var currentQuestionNum = 0
     private var questionList = mutableListOf<FileData>()
@@ -31,17 +37,16 @@ class TakeTestActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 시험 준비 화면에서 데이터 받아 오기
-        val folderName = intent.getStringExtra("folderName")
+        folderName = intent.getStringExtra("folderName")
         val fileDataList = intent.getParcelableArrayListExtra<FileData>("fileData")
         val time = intent.getStringExtra("time") ?: ""
 
         // 시간의 숫자 부분만 추출
         val numPart = Regex("\\d+").find(time)?.value?.toInt() ?: 0
         val isMinutes = time.contains("min")
-
         totalTime = if (isMinutes) numPart * 60 else numPart
-        binding.folderNameText.text = folderName.toString()
 
+        binding.folderNameText.text = folderName.toString()
 
         // 체크박스 리스트
         checkBoxes = listOf (
@@ -52,7 +57,7 @@ class TakeTestActivity : AppCompatActivity() {
         )
 
         // 클릭 리스너 설정
-        checkBoxes.forEach {imageView ->
+        checkBoxes.forEach { imageView ->
             imageView.setOnClickListener {
                 // 모든 체크박스 비선택 상태로
                 checkBoxes.forEach { it.isSelected = false }
@@ -74,6 +79,16 @@ class TakeTestActivity : AppCompatActivity() {
         // binding.folderIdText.text = folderId
         // binding.timeText.text = time
 
+        // 미리 folderId 받아오기
+        db.collection("folders")
+            .whereEqualTo("폴더명", folderName)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                if (!snapshot.isEmpty) {
+                    folderId = snapshot.documents[0].id
+                }
+            }
+
         // 다음 문제로 넘어 가는 버튼 구현
         binding.nextBtn.setOnClickListener {
             val isChecked = checkBoxes.any { it.isSelected }
@@ -82,6 +97,9 @@ class TakeTestActivity : AppCompatActivity() {
                 Toast.makeText(this, "답안을 선택하세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            val currentQuestion = questionList[currentQuestionNum]
+            writeFirebase(currentQuestion.question, currentQuestion.answer)
 
             if (currentQuestionNum < questionList.size - 1) {
                 currentQuestionNum++
@@ -99,11 +117,20 @@ class TakeTestActivity : AppCompatActivity() {
 //            }
 //        }
 
-        // 데이터 같이 넘겨야 함
         // 제출 하기 버튼 구현
         binding.submitBtn.setOnClickListener {
+            val isChecked = checkBoxes.any { it.isSelected }
+
+            if (!isChecked) {
+                Toast.makeText(this, "답안을 선택하세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val currentQuestion = questionList[currentQuestionNum]
+            writeFirebase(currentQuestion.question, currentQuestion.answer)
+
             val intent = Intent(this, AfterTestActivity::class.java)
-            // putExtra("data", data)
+            intent.putExtra("folderId", folderId)
             startActivity(intent)
         }
 
@@ -168,5 +195,34 @@ class TakeTestActivity : AppCompatActivity() {
             checkBoxes.forEach { it.isSelected = false }
 
         }
+    }
+
+    // 사용자가 선택한 답을 저장하여 AfterTestActivity에서 답 비교 진행할거임
+    fun writeFirebase(question: String, choiceAnswer: String) {
+
+        // 사용자가 선택한 체크 박스 값을 저장
+        val selectedIndex = checkBoxes.indexOfFirst { it.isSelected }
+        val selectedAnswer = when (selectedIndex) {
+            0 -> binding.choice1Text.text.toString()
+            1 -> binding.choice2Text.text.toString()
+            2 -> binding.choice3Text.text.toString()
+            3 -> binding.answerText.text.toString()
+            else -> null
+        }
+
+        val written = mapOf(
+            "문제" to question,
+            "사용자정답" to selectedAnswer,
+        )
+
+       folderId?.let {
+           val userDoc = db
+               .collection("user")
+               .document(it)
+           userDoc.set(mapOf("폴더명" to folderName))
+           userDoc
+               .collection("answer")
+               .add(written)
+       }
     }
 }

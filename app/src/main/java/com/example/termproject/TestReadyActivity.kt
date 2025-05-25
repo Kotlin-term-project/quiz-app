@@ -76,9 +76,12 @@ class TestReadyActivity : AppCompatActivity() {
                 folderList.clear()
 
                 for (doc in folderSnapshot.documents) {
+                    val folderId = doc.id
+                    val folderName = doc.getString("폴더명") ?: ""
+
                     val folder = Folder(
-                        id = doc.id,
-                        name = doc.getString("폴더명") ?: "",
+                        id = folderId,
+                        name = folderName,
                         isExpanded = false
                     )
                     folderList.add(folder)
