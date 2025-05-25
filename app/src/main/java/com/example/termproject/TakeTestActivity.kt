@@ -7,15 +7,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.termproject.databinding.ActivityTaketestBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Job
 import android.widget.ImageView
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
+
 
 
 class TakeTestActivity : AppCompatActivity() {
@@ -30,6 +27,10 @@ class TakeTestActivity : AppCompatActivity() {
     private var timerJob: Job? = null
     private var totalTime: Int = 0
     private lateinit var checkBoxes: List<ImageView>
+
+    private val savedQuestions = mutableSetOf<String>()
+    private var isSubmitted = false
+    private val sessionId = System.currentTimeMillis().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,15 +92,8 @@ class TakeTestActivity : AppCompatActivity() {
 
         // 다음 문제로 넘어 가는 버튼 구현
         binding.nextBtn.setOnClickListener {
-            val isChecked = checkBoxes.any { it.isSelected }
-
-            if (!isChecked) {
-                Toast.makeText(this, "답안을 선택하세요.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
             val currentQuestion = questionList[currentQuestionNum]
-            writeFirebase(currentQuestion.question, currentQuestion.answer)
+            writeFirebase(currentQuestion.question)
 
             if (currentQuestionNum < questionList.size - 1) {
                 currentQuestionNum++
@@ -119,19 +113,17 @@ class TakeTestActivity : AppCompatActivity() {
 
         // 제출 하기 버튼 구현
         binding.submitBtn.setOnClickListener {
-            val isChecked = checkBoxes.any { it.isSelected }
-
-            if (!isChecked) {
-                Toast.makeText(this, "답안을 선택하세요.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            if (isSubmitted) return@setOnClickListener
+            isSubmitted = true
+            timerJob?.cancel()
 
             val currentQuestion = questionList[currentQuestionNum]
-            writeFirebase(currentQuestion.question, currentQuestion.answer)
+            writeFirebase(currentQuestion.question)
 
             val intent = Intent(this, AfterTestActivity::class.java)
             intent.putExtra("folderId", folderId)
             startActivity(intent)
+            finish()
         }
 
         // 그만 두기 버튼 구현
@@ -154,14 +146,23 @@ class TakeTestActivity : AppCompatActivity() {
                 delay(1000L)
             }
 
-            Toast.makeText(this@TakeTestActivity, "시간 종료!", Toast.LENGTH_SHORT).show()
+            if (isSubmitted) return@launch
+            isSubmitted = true
 
-            // 자동 다음 문제 넘기기
+            val currentQuestion = questionList[currentQuestionNum]
+            writeFirebase(currentQuestion.question)
+
             if (currentQuestionNum < questionList.size - 1) {
                 currentQuestionNum++
                 loadQuestion(currentQuestionNum)
             } else {
-                Toast.makeText(this@TakeTestActivity, "마지막 문제입니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@TakeTestActivity, "시험 종료!", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this@TakeTestActivity, AfterTestActivity::class.java)
+                intent.putExtra("folderId", folderId)
+                startActivity(intent)
+                finish()
+
             }
         }
     }
@@ -175,6 +176,8 @@ class TakeTestActivity : AppCompatActivity() {
     // 문제를 화면에 표시
     fun loadQuestion(num: Int) {
         if (num in questionList.indices) {
+            isSubmitted = false
+
             val question = questionList[num]
             binding.questionText.text = question.question
             binding.choice1Text.text = question.choice1
@@ -198,7 +201,10 @@ class TakeTestActivity : AppCompatActivity() {
     }
 
     // 사용자가 선택한 답을 저장하여 AfterTestActivity에서 답 비교 진행할거임
-    fun writeFirebase(question: String, choiceAnswer: String) {
+    fun writeFirebase(question: String) {
+        // 이미 저장된 문제면 중복 저장 방지
+        if (savedQuestions.contains(question)) return
+        savedQuestions.add(question)
 
         // 사용자가 선택한 체크 박스 값을 저장
         val selectedIndex = checkBoxes.indexOfFirst { it.isSelected }
@@ -213,6 +219,8 @@ class TakeTestActivity : AppCompatActivity() {
         val written = mapOf(
             "문제" to question,
             "사용자정답" to selectedAnswer,
+            "저장시간" to System.currentTimeMillis(),
+            "세션" to sessionId
         )
 
        folderId?.let {

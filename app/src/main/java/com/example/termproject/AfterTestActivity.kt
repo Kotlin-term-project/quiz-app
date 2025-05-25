@@ -10,12 +10,13 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class AfterTestActivity: AppCompatActivity() {
     lateinit var binding: ActivityAftertestBinding
     private val db = FirebaseFirestore.getInstance()
 
-    val userAnswers = mutableMapOf<String, String>()
+    val userAnswers = mutableMapOf<String, String?>()
     val correctAnswers = mutableMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,35 +41,43 @@ class AfterTestActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
-        // 사용자 접답 데이터 받기
+        // 파일 정답 데이터 받기
         val folderId = intent.getStringExtra("folderId") ?: return
 
-        db.collection("user")
+        db.collection("folders")
             .document(folderId)
-            .collection("answer")
+            .collection("questions")
             .get()
             .addOnSuccessListener { docs ->
                 for (doc in docs) {
                     val question = doc.getString("문제")
-                    val userAnswer = doc.getString("사용자정답")
+                    val answer = doc.getString("정답")
 
-                    if (question != null && userAnswer != null) {
-                        userAnswers[question] = userAnswer
+                    if (question != null && answer != null) {
+                        correctAnswers[question] = answer
                     }
                 }
 
-                // 파일 정답 데이터 받기
-                db.collection("folders")
+                val numQuestions = correctAnswers.size
+
+                // 사용자 접답 데이터 받기
+                db.collection("user")
                     .document(folderId)
-                    .collection("questions")
+                    .collection("answer")
+                    .orderBy("저장시간", Query.Direction.DESCENDING)
+                    .limit(numQuestions.toLong())
                     .get()
                     .addOnSuccessListener { docs ->
-                        for (doc in docs) {
-                            val question = doc.getString("문제")
-                            val answer = doc.getString("정답")
+                        val latest = docs.firstOrNull()?.getString("세션") ?: return@addOnSuccessListener
 
-                            if (question != null && answer != null) {
-                                correctAnswers[question] = answer
+                        for (doc in docs) {
+                            if (doc.getString("세션") == latest) {
+                                val question = doc.getString("문제")
+                                val userAnswer = doc.getString("사용자정답")
+
+                                if (question != null) {
+                                    userAnswers[question] = userAnswer
+                                }
                             }
                         }
 
@@ -76,7 +85,7 @@ class AfterTestActivity: AppCompatActivity() {
                         var correctNum = 0
                         for ((question, userAnswer) in userAnswers) {
                             val correctAnswer = correctAnswers[question]
-                            if (correctAnswer != null && userAnswer == correctAnswer) {
+                            if (userAnswer != null && correctAnswer != null && userAnswer == correctAnswer) {
                                 correctNum++
                             }
                         }
@@ -85,7 +94,7 @@ class AfterTestActivity: AppCompatActivity() {
                         binding.correctNum.text = correctNum.toString()
 
                         // 전체 문제 개수
-                        binding.totalNum.text = correctAnswers.size.toString()
+                        binding.totalNum.text = numQuestions.toString()
                     }
             }
     }
