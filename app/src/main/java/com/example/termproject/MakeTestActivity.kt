@@ -15,6 +15,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 
 
@@ -54,6 +55,7 @@ class MakeTestActivity : AppCompatActivity() {
             galleryLauncher.launch("image/*")
         }
 
+        // 버튼 클릭 시 카메라 or 갤러리 열 수 있는 모달 띄움
         binding.addImage.setOnClickListener {
             val options = arrayOf("카메라로 촬영", "갤러리에서 선택")
 
@@ -88,6 +90,21 @@ class MakeTestActivity : AppCompatActivity() {
         binding.backBtn.setOnClickListener {
             finish()
         }
+    }
+
+    fun uploadImageFirebase(uri: Uri, callback: (imageUrl: String) -> Unit) {
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imgRef = storageRef.child("question_images/${System.currentTimeMillis()}.jpg")
+
+        imgRef.putFile(uri)
+            .addOnSuccessListener {
+                imgRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+                    callback(downloadUrl.toString())
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show()
+            }
     }
 
     fun writeFirebase(question: String, choice1: String, choice2: String, choice3: String, answer: String) {
