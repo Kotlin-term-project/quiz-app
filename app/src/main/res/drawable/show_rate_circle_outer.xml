@@ -5,10 +5,10 @@
     <item android:id="@android:id/background">
         <shape
             android:shape="ring"
-            android:innerRadiusRatio="2.5"
-            android:thickness="30dp"
+            android:innerRadiusRatio="3"
+            android:thickness="40dp"
             android:useLevel="false">
-            <solid android:color="#FFFFFF" />
+            <solid android:color="#F0F0F0" />
         </shape>
     </item>
 
@@ -16,10 +16,10 @@
     <item android:id="@android:id/progress">
         <shape
             android:shape="ring"
-            android:innerRadiusRatio="2.5"
-            android:thickness="30dp"
+            android:innerRadiusRatio="3"
+            android:thickness="40dp"
             android:useLevel="true">
-            <solid android:color="#4455C4" />
+            <solid android:color="#49A4FF" />
         </shape>
     </item>
 
