@@ -1,15 +1,21 @@
 package com.example.termproject
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import com.example.termproject.databinding.ActivityMaketestBinding
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import java.io.File
 
 
 // 시험 만들기
@@ -17,10 +23,50 @@ class MakeTestActivity : AppCompatActivity() {
     lateinit var binding: ActivityMaketestBinding
     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
+    lateinit var cameraUri: Uri
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMaketestBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 갤러리 앱 연동
+        val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){ uri ->
+            uri?.let {
+                binding.showImage.setImageURI(it)
+            }
+        }
+
+        // 카메라 앱 연동
+       val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+            if (it) {
+                binding.showImage.setImageURI(cameraUri)
+            }
+        }
+
+        fun openCamera() {
+            val imageFile = File.createTempFile("IMG_", ".jpg", cacheDir)
+            cameraUri = FileProvider.getUriForFile(this, "${packageName}.fileprovider", imageFile)
+            cameraLauncher.launch(cameraUri)
+        }
+
+        fun openGallery() {
+            galleryLauncher.launch("image/*")
+        }
+
+        binding.addImage.setOnClickListener {
+            val options = arrayOf("카메라로 촬영", "갤러리에서 선택")
+
+            AlertDialog.Builder(this)
+                .setTitle("이미지 선택")
+                .setItems(options) { _, which ->
+                    when (which) {
+                        0 -> openCamera()
+                        1 -> openGallery()
+                    }
+                }
+                .show()
+        }
 
         // 시험 문제 만들고 저장 버튼 누르면 다음 화면에 뜰 내용 저장
         binding.saveBtn.setOnClickListener {

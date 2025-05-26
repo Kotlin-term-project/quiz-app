@@ -11,6 +11,7 @@ class LoginActivity: AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     private var auth = FirebaseAuth.getInstance()
 
+    // 최초 1회 로그인 구현
     override fun onStart() {
         super.onStart()
         if (auth.currentUser != null) {

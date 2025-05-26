@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_margin="10dp" >
 
         <!-- 왼쪽 나가기 버튼 -->
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:paddingVertical="20dp"
+        android:paddingVertical="15dp"
         android:paddingHorizontal="13dp">
         <ImageView
             android:layout_width="wrap_content"
@@ -117,6 +117,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:text="Q"
                 android:textColor="#1F2F98"
                 android:textSize="35sp" />
@@ -124,7 +125,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  문제"
+                android:text="문제"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -173,6 +174,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:text="A"
                 android:textSize="35sp"
                 android:textColor="#6A981F" />
@@ -180,7 +182,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  답변"
+                android:text="답변"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -199,6 +201,7 @@
                     android:id="@+id/choice1"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/take_test_check_box" />
                 <View
                     android:layout_width="15dp"
@@ -211,7 +214,7 @@
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:paddingHorizontal="10dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="7dp"
                     android:background="@drawable/take_test_answer_box" />
             </LinearLayout>
             <Space android:layout_width="match_parent" android:layout_height="25dp"/>
@@ -223,6 +226,7 @@
                     android:id="@+id/choice2"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/take_test_check_box" />
                 <View
                     android:layout_width="15dp"
@@ -235,7 +239,7 @@
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:paddingHorizontal="10dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="7dp"
                     android:background="@drawable/take_test_answer_box" />
             </LinearLayout>
             <Space android:layout_width="match_parent" android:layout_height="25dp"/>
@@ -247,6 +251,7 @@
                     android:id="@+id/choice3"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/take_test_check_box" />
                 <View
                     android:layout_width="15dp"
@@ -259,7 +264,7 @@
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:paddingHorizontal="10dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="7dp"
                     android:background="@drawable/take_test_answer_box" />
             </LinearLayout>
             <Space android:layout_width="match_parent" android:layout_height="25dp"/>
@@ -271,6 +276,7 @@
                     android:id="@+id/choice_answer"
                     android:layout_width="27dp"
                     android:layout_height="27dp"
+                    android:layout_gravity="center_vertical"
                     android:src="@drawable/take_test_check_box" />
                 <View
                     android:layout_width="15dp"
@@ -283,7 +289,7 @@
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     android:paddingHorizontal="10dp"
-                    android:paddingVertical="4dp"
+                    android:paddingVertical="7dp"
                     android:background="@drawable/take_test_answer_box" />
             </LinearLayout>
         </LinearLayout>
