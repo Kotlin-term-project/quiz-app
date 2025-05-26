@@ -92,6 +92,12 @@ class TakeTestActivity : AppCompatActivity() {
 
         // 다음 문제로 넘어 가는 버튼 구현
         binding.nextBtn.setOnClickListener {
+            val selectedNum = checkBoxes.indexOfFirst { it.isSelected }
+            if (selectedNum == -1) {
+                Toast.makeText(this, "답안을 선택해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val currentQuestion = questionList[currentQuestionNum]
             writeFirebase(currentQuestion.question)
 
@@ -114,6 +120,13 @@ class TakeTestActivity : AppCompatActivity() {
         // 제출 하기 버튼 구현
         binding.submitBtn.setOnClickListener {
             if (isSubmitted) return@setOnClickListener
+
+            val selectedNum = checkBoxes.indexOfFirst { it.isSelected }
+            if (selectedNum == -1) {
+                Toast.makeText(this, "답안을 선택해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             isSubmitted = true
             timerJob?.cancel()
 

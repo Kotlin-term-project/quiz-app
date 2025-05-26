@@ -95,6 +95,11 @@ class TestReadyActivity : AppCompatActivity() {
 
     fun loadFiles() {
 
+        if (selectedTime.isEmpty()) {
+            Toast.makeText(this, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val selectedFolder = folderList.find { it.name == selectedFolderName }
 
         if (selectedFolder != null) {
@@ -117,11 +122,18 @@ class TestReadyActivity : AppCompatActivity() {
                         fileList.add(file)
                     }
 
-                    val intent = Intent(this, TakeTestActivity::class.java)
-                    intent.putExtra("folderName", selectedFolder.name)
-                    intent.putExtra("time", selectedTime)
-                    intent.putParcelableArrayListExtra("fileData", ArrayList(fileList))
-                    startActivity(intent)
+                    // 폴더에 문제가 없으면 시험 시작 X
+                    if (fileList.isEmpty()) {
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        Toast.makeText(this, "${selectedFolderName} 폴더 안에 문제가 없습니다. 만들어주세요.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val intent = Intent(this, TakeTestActivity::class.java)
+                        intent.putExtra("folderName", selectedFolder.name)
+                        intent.putExtra("time", selectedTime)
+                        intent.putParcelableArrayListExtra("fileData", ArrayList(fileList))
+                        startActivity(intent)
+                    }
                 }
                 .addOnFailureListener {
                     Toast.makeText(this, "문제 불러오기 실패", Toast.LENGTH_SHORT).show()
@@ -168,42 +180,3 @@ class TestReadyActivity : AppCompatActivity() {
         popupMenu.show()
     }
 }
-
-
-
-//package com.example.termproject
-//
-//import android.view.LayoutInflater
-//import android.view.ViewGroup
-//import androidx.recyclerview.widget.RecyclerView
-//import com.example.termproject.databinding.ItemFoldernameBinding
-//
-//
-//data class FolderName(
-//    val id: String,
-//    val name: String,
-//    var isExpanded: Boolean = false,
-//)
-//
-//class FolderNameViewHolder(val binding: ItemFoldernameBinding) : RecyclerView.ViewHolder(binding.root)
-//
-//class FolderNameAdapter(val folderNames: MutableList<FolderName>) : RecyclerView.Adapter<FolderNameViewHolder>() {
-//
-//    override fun getItemCount(): Int = folderNames.size
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderNameViewHolder = FolderNameViewHolder(
-//        ItemFoldernameBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-//
-//    override fun onBindViewHolder(holder: FolderNameViewHolder, position: Int) {
-//        val folder = folderNames[position]
-//        val binding = holder.binding
-//
-//        binding.folderNameBtn.text = folder.name
-//
-//        // 토글 버튼 클릭 시 상태 변경 후 갱신
-//        binding.folderNameBtn.setOnClickListener {
-//            folder.isExpanded = !folder.isExpanded
-//            notifyItemChanged(position)
-//        }
-//    }
-//}
