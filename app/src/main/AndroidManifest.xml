@@ -43,6 +43,8 @@
         <activity android:name=".SaveConfirmActivity" />
         <activity android:name=".StudyTimerActivity" />
         <activity android:name=".FileDataActivity" />
+        <activity android:name=".ShowWrongAnswerActivity" />
+        <activity android:name=".AICreateActivity" />
     </application>
 
 </manifest>

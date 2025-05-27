@@ -19,14 +19,28 @@ class AfterTestActivity: AppCompatActivity() {
     val userAnswers = mutableMapOf<String, String?>()
     val correctAnswers = mutableMapOf<String, String>()
 
+    val questionList = mutableListOf<FileData>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAftertestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        comparisonLogic()
+
         // 오답 보기 버튼 구현
         binding.showWrongAnswer.setOnClickListener {
-            // 데이터 받아와서 구현
+            val wrongList = questionList.filter {
+                it.userAnswer != null && it.userAnswer != it.answer
+            }
+
+            if (wrongList.isEmpty()) {
+                Toast.makeText(this, "오답이 없습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val intent = Intent(this, ShowWrongAnswerActivity::class.java)
+            intent.putParcelableArrayListExtra("wrongList", ArrayList(wrongList))
+            startActivity(intent)
         }
 
         // 다시 풀기 버튼 구현
@@ -40,7 +54,9 @@ class AfterTestActivity: AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+    }
 
+    fun comparisonLogic() {
         // 파일 정답 데이터 받기
         val folderId = intent.getStringExtra("folderId") ?: return
 
@@ -49,12 +65,27 @@ class AfterTestActivity: AppCompatActivity() {
             .collection("questions")
             .get()
             .addOnSuccessListener { docs ->
-                for (doc in docs) {
+                val docsList = docs.documents
+                for (doc in docsList) {
                     val question = doc.getString("문제")
+                    val choice1 = doc.getString("1번") ?: ""
+                    val choice2 = doc.getString("2번") ?: ""
+                    val choice3 = doc.getString("3번") ?: ""
                     val answer = doc.getString("정답")
+                    val userAnswer = answer ?: ""
 
                     if (question != null && answer != null) {
                         correctAnswers[question] = answer
+                        questionList.add(
+                            FileData(
+                                question = question,
+                                choice1 = choice1,
+                                choice2 = choice2,
+                                choice3 = choice3,
+                                answer = answer,
+                                userAnswer = null
+                            )
+                        )
                     }
                 }
 
@@ -72,11 +103,12 @@ class AfterTestActivity: AppCompatActivity() {
 
                         for (doc in docs) {
                             if (doc.getString("세션") == latest) {
-                                val question = doc.getString("문제")
-                                val userAnswer = doc.getString("사용자정답")
+                                val question = doc.getString("문제")?.trim()
+                                val userAnswer = doc.getString("사용자정답")?.trim()
 
                                 if (question != null) {
                                     userAnswers[question] = userAnswer
+                                    questionList.find { it.question == question }?.userAnswer = userAnswer
                                 }
                             }
                         }
@@ -85,8 +117,10 @@ class AfterTestActivity: AppCompatActivity() {
                         var correctNum = 0
                         for ((question, userAnswer) in userAnswers) {
                             val correctAnswer = correctAnswers[question]
-                            if (userAnswer != null && correctAnswer != null && userAnswer == correctAnswer) {
-                                correctNum++
+                            if (userAnswer != null && correctAnswer != null) {
+                                if (userAnswer == correctAnswer) {
+                                    correctNum++
+                                }
                             }
                         }
 

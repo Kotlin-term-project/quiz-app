@@ -8,14 +8,16 @@ data class FileData(
     val choice1: String,
     val choice2: String,
     val choice3: String,
-    val answer: String
+    val answer: String,
+    var userAnswer: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -24,6 +26,7 @@ data class FileData(
         parcel.writeString(choice2)
         parcel.writeString(choice3)
         parcel.writeString(answer)
+        parcel.writeString(userAnswer)
     }
 
     override fun describeContents(): Int {

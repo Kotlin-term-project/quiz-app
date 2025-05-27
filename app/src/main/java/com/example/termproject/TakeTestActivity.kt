@@ -229,6 +229,9 @@ class TakeTestActivity : AppCompatActivity() {
             else -> null
         }
 
+        // FileData에 userAnswer 저장
+        questionList.find { it.question == question }?.userAnswer = selectedAnswer
+
         val written = mapOf(
             "문제" to question,
             "사용자정답" to selectedAnswer,
