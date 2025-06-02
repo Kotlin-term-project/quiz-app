@@ -6,12 +6,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/hug_answer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="chatGPT 답변" />
-
 </LinearLayout>
 
 

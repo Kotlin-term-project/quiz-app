@@ -107,16 +107,6 @@ class TakeTestActivity : AppCompatActivity() {
             }
         }
 
-        // 이전 문제로 가는 버튼 구현
-//        binding.prevBtn.setOnClickListener {
-//            if (currentQuestionNum > 0) {
-//                currentQuestionNum--
-//                loadQuestion(currentQuestionNum)
-//            } else {
-//                Toast.makeText(this, "이전 문제가 없습니다.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-
         // 제출 하기 버튼 구현
         binding.submitBtn.setOnClickListener {
             if (isSubmitted) return@setOnClickListener
@@ -192,11 +182,25 @@ class TakeTestActivity : AppCompatActivity() {
             isSubmitted = false
 
             val question = questionList[num]
+
             binding.questionText.text = question.question
-            binding.choice1Text.text = question.choice1
-            binding.choice2Text.text = question.choice2
-            binding.choice3Text.text = question.choice3
-            binding.answerText.text = question.answer
+
+            val choices = mutableListOf(
+                question.choice1,
+                question.choice2,
+                question.choice3,
+                question.answer,
+            )
+            choices.shuffle()
+
+            binding.choice1Text.text = choices[0]
+            binding.choice2Text.text = choices[1]
+            binding.choice3Text.text = choices[2]
+            binding.answerText.text = choices[3]
+
+            val correctAnswerIndex = choices.indexOf(question.answer)
+
+            question.correctAnswerIndex = correctAnswerIndex
 
             if (num == questionList.size - 1) {
                 binding.submitBtn.visibility = View.VISIBLE
@@ -204,6 +208,7 @@ class TakeTestActivity : AppCompatActivity() {
 
             } else {
                 binding.submitBtn.visibility = View.GONE
+                binding.nextBtn.visibility = View.VISIBLE
             }
 
             startTimer()
