@@ -4,6 +4,17 @@ plugins {
     alias(libs.plugins.google.gms)
 }
 
+val localProperties = rootProject.file("local.properties")
+    .readLines()
+    .filter { it.contains("=") }
+    .associate {
+        val (key, value) = it.split("=", limit = 2)
+        key.trim() to value.trim()
+    }
+
+val hfApiKey = localProperties["HF_API_KEY"]
+    ?: throw GradleException("HF_API_KEY is missing")
+
 android {
     namespace = "com.example.termproject"
     compileSdk = 35
@@ -16,9 +27,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "HF_API_KEY", "\"$hfApiKey\"")
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
         dataBinding = true
     }
@@ -56,6 +70,8 @@ dependencies {
     implementation(libs.material.dialogs.core)
     implementation(libs.material.dialogs.input)
     implementation(libs.material.dialogs.lifecycle)
+    implementation(libs.okhttp)
+    implementation(libs.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

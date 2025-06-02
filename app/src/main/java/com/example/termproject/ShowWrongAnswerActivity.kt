@@ -54,14 +54,14 @@ class ShowWrongAnswerActivity: AppCompatActivity() {
 
         val q = wrongList[num]
 
-        val userAnswer = q.userAnswer
+        val userAnswer = q.userAnswer ?: ""
         val correctAnswer = q.answer
 
         val checkBoxViews = listOf(
             binding.choice1 to q.choice1,
             binding.choice2 to q.choice2,
             binding.choice3 to q.choice3,
-            binding.choiceAnswer to q.answer,
+            binding.choiceAnswer to correctAnswer,
         )
 
         val choiceViews = listOf(

@@ -31,7 +31,7 @@ class AfterTestActivity: AppCompatActivity() {
         // 오답 보기 버튼 구현
         binding.showWrongAnswer.setOnClickListener {
             val wrongList = questionList.filter {
-                it.userAnswer != null && it.userAnswer != it.answer
+                it.userAnswer != it.answer
             }
 
             if (wrongList.isEmpty()) {
