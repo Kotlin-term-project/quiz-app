@@ -55,7 +55,7 @@
                 android:hint="시험 치기"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:textColor="#000"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

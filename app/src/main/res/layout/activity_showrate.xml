@@ -1,91 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-    <LinearLayout
-        android:id="@+id/title"
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_margin="15dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:src="@drawable/spring_shape" />
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/nav_rate"
-            android:layout_marginEnd="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="정답률"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:textSize="30sp"/>
-    </LinearLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:drawableStart="@drawable/nav_rate"
+        android:drawablePadding="10dp"
+        android:text="정답률"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="35dp"/>
 
     <View
-        android:id="@+id/line"
-        android:layout_width="0dp"
-        android:layout_height="1.5dp"
-        android:background="#AFAFAF"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#AFAFAF" />
 
-
+    <!-- 폴더 선택 버튼 -->
     <Button
         android:id="@+id/select_folder_btn"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="40dp"
         android:layout_marginTop="20dp"
         android:drawableEnd="@drawable/toggle_shape2"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
         android:text="전체(0)"
-        android:textSize="17dp"
-        android:textColor="#777777"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line" />
+        android:textSize="17sp"
+        android:textColor="#777777" />
 
+    <!-- 원형 차트 -->
     <ProgressBar
         android:id="@+id/rate_circle"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
         android:indeterminate="false"
         android:progressDrawable="@drawable/show_rate_circle_outer"
-        android:layout_margin="50dp"
         android:max="100"
         android:progress="0"
         android:rotation="-90"
-        app:layout_constraintTop_toBottomOf="@id/select_folder_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginVertical="30dp" />
 
-    <!-- 정답 -->
+
     <LinearLayout
         android:id="@+id/text_group_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/rate_circle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp">
+        android:layout_gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,7 +73,7 @@
             android:drawablePadding="15dp"
             android:paddingRight="5dp"
             android:text="정답"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textColor="#000"/>
 
         <TextView
@@ -103,20 +82,18 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:text="NN개 (0%)"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textColor="#0075E9" />
     </LinearLayout>
 
-    <!-- 오답 -->
     <LinearLayout
         android:id="@+id/text_group_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/text_group_1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:gravity="top|center"
+        android:layout_gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,7 +102,7 @@
             android:drawablePadding="15dp"
             android:paddingRight="5dp"
             android:text="오답"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textColor="#000" />
 
         <TextView
@@ -134,72 +111,73 @@
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:text="NN개 (0%)"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:textColor="#B6B6B6" />
     </LinearLayout>
 
     <!-- 네비게이션 바 -->
     <LinearLayout
-        android:id="@+id/navigation_bar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/navigation_bar"
         android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:orientation="horizontal">
 
+        <!-- 문제 목록 -->
         <Button
             android:id="@+id/main_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@android:color/transparent"
             android:drawableTop="@drawable/nav_main"
             android:drawablePadding="13dp"
             android:paddingVertical="15dp"
+            android:layout_weight="1"
             android:text="문제 목록"
             android:textColor="#000"
             android:textStyle="bold" />
 
+        <!-- 시험 치기 -->
         <Button
             android:id="@+id/take_test_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@android:color/transparent"
             android:drawableTop="@drawable/nav_test"
             android:drawablePadding="10dp"
             android:paddingVertical="15dp"
+            android:layout_weight="1"
             android:text="시험 치기"
             android:textColor="#000"
             android:textStyle="bold" />
 
+        <!-- 정답률 -->
         <Button
             android:id="@+id/rate_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@android:color/transparent"
             android:drawableTop="@drawable/nav_rate"
             android:drawablePadding="6dp"
             android:paddingVertical="15dp"
+            android:layout_weight="1"
             android:text="정답률"
             android:textColor="#000"
             android:textStyle="bold" />
 
+        <!-- 타이머 -->
         <Button
             android:id="@+id/timer_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@android:color/transparent"
             android:drawableTop="@drawable/nav_timer"
             android:drawablePadding="6dp"
             android:paddingVertical="15dp"
+            android:layout_weight="1"
             android:text="타이머"
             android:textColor="#000"
             android:textStyle="bold" />
+
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
