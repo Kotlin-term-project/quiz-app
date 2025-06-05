@@ -150,12 +150,27 @@ class TestReadyActivity : AppCompatActivity() {
 
         // 폴더 목록을 돌며 메뉴를 하나씩 추가
         for (i in folderList.indices) {
-            menu.add(0, i, i, folderList[i].name)
+            val folderName = folderList[i].name
+            val displayName = if (folderName.length > 10) {
+                folderName.substring(0, 10) + "..."
+            } else {
+                folderName
+            }
+            menu.add(0, i, i, displayName)
         }
 
         popupMenu.setOnMenuItemClickListener { item ->
-            binding.pickFolderBtn.text = item.title
-            selectedFolderName = item.title.toString()
+            val selectedFolder = item.title.toString()
+
+            // 선택 폴더명은 그대로 저장 (데이터 혼동되지 않도록)
+            selectedFolderName = folderList[item.itemId].name
+
+            // 드롭다운에서 표시 되는 이름만 ... 추가
+            binding.pickFolderBtn.text = if (selectedFolder.length > 6) {
+                selectedFolder.substring(0, 6) + "..."
+            } else {
+                selectedFolder
+            }
             true
         }
         popupMenu.show()
