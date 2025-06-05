@@ -47,7 +47,13 @@ class TakeTestActivity : AppCompatActivity() {
         val isMinutes = time.contains("min")
         totalTime = if (isMinutes) numPart * 60 else numPart
 
-        binding.folderNameText.text = folderName.toString()
+        val displayName = if (folderName != null && folderName!!.length > 6) {
+            folderName!!.substring(0, 6) + "..."
+        } else {
+            folderName ?: ""
+        }
+
+        binding.folderNameText.text = displayName
 
         // 체크박스 리스트
         checkBoxes = listOf (

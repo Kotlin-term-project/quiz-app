@@ -8,7 +8,7 @@ import com.example.termproject.databinding.ItemFileBinding
 
 class FileAdapter(private val files: List<FileData>) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
-    private fun shortenFileName(name: String, maxLen: Int = 15): String {
+    private fun shortenFileName(name: String, maxLen: Int = 12): String {
         return if (name.length > maxLen) {
             name.take(maxLen) + "..."
         } else {
