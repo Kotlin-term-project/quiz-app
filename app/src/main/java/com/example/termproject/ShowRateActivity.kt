@@ -2,6 +2,7 @@ package com.example.termproject
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.termproject.databinding.ActivityShowrateBinding
@@ -18,6 +19,7 @@ class ShowRateActivity : AppCompatActivity() {
 
     private val folderList = mutableListOf<Folder>()
     private var selectedFolderName: String = "ALL"
+    lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,16 @@ class ShowRateActivity : AppCompatActivity() {
         binding.selectFolderBtn.setOnClickListener {
             showDropdownMenu()
         }
+
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // 화면 켜질 때 코루틴 시작
         lifecycleScope.launch {
@@ -58,7 +70,13 @@ class ShowRateActivity : AppCompatActivity() {
             val intent = Intent(this, StudyTimerActivity::class.java)
             startActivity(intent)
         }
+
+        // Drawer 열기
+        binding.hamburgerButton.setOnClickListener {
+            binding.drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
+        }
     }
+
 
     private suspend fun loadFolderList() {
         // firebase에서 folders 컬렉션을 가져오고 결과가 올 때까지 잠시 기다림

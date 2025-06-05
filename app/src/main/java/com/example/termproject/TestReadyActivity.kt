@@ -11,6 +11,7 @@ import com.example.termproject.databinding.ActivityTestreadyBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.lang.reflect.Array
+import androidx.appcompat.app.ActionBarDrawerToggle
 
 
 class TestReadyActivity : AppCompatActivity() {
@@ -21,10 +22,23 @@ class TestReadyActivity : AppCompatActivity() {
     private var selectedFolderName: String = ""
     private var selectedTime: String = ""
 
+    lateinit var toggle: ActionBarDrawerToggle
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTestreadyBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // drawer 구현
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // MainActivity 가는 버튼 구현
         binding.mainBtn.setOnClickListener {
@@ -63,6 +77,11 @@ class TestReadyActivity : AppCompatActivity() {
         // TakeTestActivity 가는 버튼 구현
         binding.goTestBtn.setOnClickListener {
             loadFiles()
+        }
+
+        // Drawer 열기
+        binding.hamburgerButton.setOnClickListener {
+            binding.drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
         }
     }
 

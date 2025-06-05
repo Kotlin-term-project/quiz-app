@@ -15,18 +15,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/spring_shape" />
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginHorizontal="15dp"
-            android:drawableStart="@drawable/nav_rate"
-            android:drawablePadding="10dp"
-            android:text="정답률"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:textSize="35dp"/>
+            android:paddingRight="10dp">
+
+            <!-- 왼쪽 끝에 고정된 햄버거 버튼 -->
+            <ImageButton
+                android:id="@+id/hamburger_button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@null"
+                android:src="@drawable/hamburger_button"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
+
+            <!-- 가운데 정렬된 이미지 + 텍스트 묶음 -->
+            <LinearLayout
+                android:id="@+id/title_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/nav_rate"
+                    android:layout_marginEnd="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="정답률"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:textSize="35dp" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"

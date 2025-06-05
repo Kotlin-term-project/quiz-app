@@ -10,6 +10,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.text.InputType
 import android.widget.EditText
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.termproject.databinding.ActivityStudytimerBinding
 
 
@@ -22,6 +23,7 @@ class StudyTimerActivity : AppCompatActivity() {
     private var isBreak = false
     private var job: Job? = null
     private var remainingSeconds = 0
+    lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityStudytimerBinding.inflate(layoutInflater)
@@ -31,6 +33,16 @@ class StudyTimerActivity : AppCompatActivity() {
         updateCycleText()
         updateTimeText(studyMinutes * 60)
 
+        toggle = ActionBarDrawerToggle(
+            this,
+            binding.drawerLayout,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        
         // 타이머 시간 설정 클릭
         binding.time.setOnClickListener {
             showTimeInputDialog()
@@ -82,6 +94,11 @@ class StudyTimerActivity : AppCompatActivity() {
         binding.timerBtn.setOnClickListener {
             val intent = Intent(this, StudyTimerActivity::class.java)
             startActivity(intent)
+        }
+
+        // Drawer 열기
+        binding.hamburgerButton.setOnClickListener {
+            binding.drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
         }
     }
 
