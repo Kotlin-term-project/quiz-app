@@ -99,8 +99,13 @@ class ShowRateActivity : AppCompatActivity() {
 
     private fun updateFolderButton() {
         val count = folderList.size
+        val displayName = if (selectedFolderName.length > 18) {
+            selectedFolderName.substring(0, 18) + "..."
+        } else {
+            selectedFolderName
+        }
         binding.selectFolderBtn.text =
-            if (selectedFolderName == "ALL") "전체($count)" else selectedFolderName
+            if (selectedFolderName == "ALL") "전체($count)" else displayName
     }
 
     private fun showDropdownMenu() {
@@ -111,7 +116,12 @@ class ShowRateActivity : AppCompatActivity() {
         menu.add(0, -1, 0, "전체(${folderList.size})")
 
         for ((index, folder) in folderList.withIndex()) {
-            menu.add(0, index, index, folder.name)
+            val displayName = if (folder.name.length > 22) {
+                folder.name.substring(0, 22) + "..."
+            } else {
+                folder.name
+            }
+            menu.add(0, index, index, displayName)
         }
 
         // 폴더를 선택하면 폴더 이름 저장 -> 버튼 텍스트 변경 -> 정답률 재계산
@@ -123,7 +133,6 @@ class ShowRateActivity : AppCompatActivity() {
             }
             true
         }
-
         popup.show()
     }
 
