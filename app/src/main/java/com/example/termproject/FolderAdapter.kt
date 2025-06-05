@@ -22,6 +22,14 @@ class FolderViewHolder(val binding: ItemFolderBinding) : RecyclerView.ViewHolder
 
 class FolderAdapter(val folders: MutableList<Folder>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private fun shortenFolderName(name: String, maxLen: Int = 10): String {
+        return if (name.length > maxLen) {
+            name.take(maxLen) + "..."
+        } else {
+            name
+        }
+    }
+
     override fun getItemCount(): Int = folders.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = FolderViewHolder(
@@ -31,7 +39,8 @@ class FolderAdapter(val folders: MutableList<Folder>): RecyclerView.Adapter<Recy
         val binding = (holder as FolderViewHolder).binding
         val folder = folders[position]
 
-        binding.folderName.text = folder.name
+        // 폴더 이름 짧게 가져오기
+        binding.folderName.text = shortenFolderName(folder.name)
 
         // 폴더 안에 파일 리사이클러뷰 구현 (중첩 리사이클러뷰)
         val fileAdapter = FileAdapter(folder.files)

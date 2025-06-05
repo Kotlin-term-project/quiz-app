@@ -8,6 +8,14 @@ import com.example.termproject.databinding.ItemFileBinding
 
 class FileAdapter(private val files: List<FileData>) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
+    private fun shortenFileName(name: String, maxLen: Int = 15): String {
+        return if (name.length > maxLen) {
+            name.take(maxLen) + "..."
+        } else {
+            name
+        }
+    }
+
     inner class FileViewHolder(val binding: ItemFileBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun getItemCount(): Int = files.size
@@ -19,7 +27,9 @@ class FileAdapter(private val files: List<FileData>) : RecyclerView.Adapter<File
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
         val file = files[position]
-        holder.binding.fileText.text = file.question
+
+        // 파일 이름 짧게 가져오기
+        holder.binding.fileText.text = shortenFileName(file.question)
 
         holder.binding.fileDataBtn.setOnClickListener {
             val context = holder.itemView.context
