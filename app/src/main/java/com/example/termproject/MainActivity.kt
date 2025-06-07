@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.termproject.databinding.ActivityMainBinding
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
@@ -115,6 +116,16 @@ class MainActivity : AppCompatActivity() {
         binding.hamburgerButton.setOnClickListener {
             binding.drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
         }
+
+        // 로그아웃 버튼 눌렀을 때
+        binding.logoutBtn.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
     }
 
     // 폴더명을 저장해서 MakeTestActivity에 넘길 함수

@@ -164,12 +164,20 @@
     <LinearLayout
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
         android:orientation="vertical"
+
+        android:layout_gravity="start"
         android:background="@drawable/drawer_box"
         android:gravity="center">
 
         <!-- 프로필 추가... (나중에) -->
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그아웃"
+            android:backgroundTint="#FFFFFF">
+        </Button>
 
     </LinearLayout>
 
