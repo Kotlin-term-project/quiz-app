@@ -165,18 +165,23 @@
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         android:layout_gravity="start"
         android:background="@drawable/drawer_box"
         android:gravity="center">
-
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/drawer_study_img"
+            android:layout_marginBottom="30dp"/>
         <!-- 프로필 추가... (나중에) -->
         <Button
             android:id="@+id/logout_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:text="로그아웃"
-            android:backgroundTint="#FFFFFF">
+            android:textSize="15sp"
+            android:backgroundTint="#F8FBFF">
         </Button>
 
     </LinearLayout>

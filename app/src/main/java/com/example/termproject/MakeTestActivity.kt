@@ -17,6 +17,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
+import com.googlecode.tesseract.android.TessBaseAPI
+import java.io.FileOutputStream
 
 
 // 시험 만들기
@@ -33,6 +35,7 @@ class MakeTestActivity : AppCompatActivity() {
         val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){ uri ->
             uri?.let {
                 binding.showImage.setImageURI(it)
+                showOcrConfirmDialog(it)  //  OCR 다이얼로그
             }
         }
 
@@ -40,6 +43,7 @@ class MakeTestActivity : AppCompatActivity() {
        val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
             if (it) {
                 binding.showImage.setImageURI(cameraUri)
+                showOcrConfirmDialog(cameraUri)  //  OCR 다이얼로그
             }
         }
 
@@ -96,6 +100,74 @@ class MakeTestActivity : AppCompatActivity() {
         // 뒤로 가기 버튼 구현
         binding.backBtn.setOnClickListener {
             finish()
+        }
+    }
+
+    // OCR 실행 여부 묻는 다이얼로그
+    private fun showOcrConfirmDialog(imageUri: Uri) {
+        AlertDialog.Builder(this)
+            .setTitle("텍스트 추출")
+            .setMessage("이 사진에서 텍스트를 추출할까요?")
+            .setPositiveButton("예") { _, _ ->
+                runOcr(imageUri)
+            }
+            .setNegativeButton("아니오", null)
+            .show()
+    }
+
+    // OCR 실행 함수
+    private fun runOcr(imageUri: Uri) {
+        val bitmap = contentResolver.openInputStream(imageUri)?.use {
+            android.graphics.BitmapFactory.decodeStream(it)
+        }
+
+        if (bitmap != null) {
+            val tess = TessBaseAPI()
+
+            val tessDir = File(filesDir, "tesseract")
+            val tessDataDir = File(tessDir, "tessdata")
+
+            if (!File(tessDataDir, "kor.traineddata").exists()) {
+                copyTrainedDataFromAssets(tessDataDir, "kor.traineddata")
+                copyTrainedDataFromAssets(tessDataDir, "eng.traineddata")
+            }
+
+            tess.init(tessDir.absolutePath, "kor+eng")
+            tess.setImage(bitmap)
+            val result = tess.utF8Text
+            tess.end()
+
+            // OCR 결과 정리: 연속 공백 제거, 양쪽 trim, 쓸데없는 줄바꿈 제거
+            val cleanedText = result
+                .replace(Regex("[\\r\\n]+"), " ")     // 연속 줄바꿈을 공백으로
+                .replace(Regex("\\s+"), " ")          // 연속 공백을 하나로
+                .trim()
+
+            binding.inputQuestion.setText(cleanedText)
+            Toast.makeText(this, "텍스트 추출 완료", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "이미지 불러오기 실패", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // 학습 데이터 복사 함수
+    private fun copyTrainedDataFromAssets(destDir: File, fileName: String) {
+        if (!destDir.exists()) destDir.mkdirs()
+
+        val destFile = File(destDir, fileName)
+        if (!destFile.exists()) {
+            val inputStream = assets.open("tessdata/$fileName")
+            val outputStream = FileOutputStream(destFile)
+
+            val buffer = ByteArray(1024)
+            var read: Int
+            while (inputStream.read(buffer).also { read = it } != -1) {
+                outputStream.write(buffer, 0, read)
+            }
+
+            inputStream.close()
+            outputStream.flush()
+            outputStream.close()
         }
     }
 
