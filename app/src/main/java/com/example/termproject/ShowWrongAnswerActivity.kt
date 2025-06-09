@@ -46,6 +46,7 @@ class ShowWrongAnswerActivity: AppCompatActivity() {
         // AI 문제 생성 버튼 구현
         binding.AICreateBtn.setOnClickListener {
             val intent = Intent(this, AICreateActivity::class.java)
+            intent.putExtra("data", wrongList[currentWrongNum])
             startActivity(intent)
         }
     }

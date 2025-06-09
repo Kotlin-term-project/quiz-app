@@ -1,19 +1,21 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms)
 }
 
-val localProperties = rootProject.file("local.properties")
-    .readLines()
-    .filter { it.contains("=") }
-    .associate {
-        val (key, value) = it.split("=", limit = 2)
-        key.trim() to value.trim()
-    }
 
-val hfApiKey = localProperties["HF_API_KEY"]
-    ?: throw GradleException("HF_API_KEY is missing")
+val localProperties = Properties().apply {
+    load(FileInputStream(rootProject.file("local.properties")))
+}
+
+val openAiApiKey = localProperties.getProperty("OPENAI_API_KEY")
+    ?: throw GradleException("OPENAI_API_KEY is missing")
+
+println("OPENAI_API_KEY = $openAiApiKey")
 
 android {
     namespace = "com.example.termproject"
@@ -28,7 +30,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "HF_API_KEY", "\"$hfApiKey\"")
+        buildConfigField("String", "OPENAI_API_KEY", "\"$openAiApiKey\"")
     }
 
     buildFeatures {
