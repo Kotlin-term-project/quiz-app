@@ -132,6 +132,7 @@ class TestReadyActivity : AppCompatActivity() {
 
                     for (questionDoc in questionSnapshot.documents) {
                         val file = FileData(
+                            id = questionDoc.id,
                             question = questionDoc.getString("문제") ?: "",
                             choice1 = questionDoc.getString("1번") ?: "",
                             choice2 = questionDoc.getString("2번") ?: "",

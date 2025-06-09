@@ -49,7 +49,31 @@ class MainActivity : AppCompatActivity() {
 
         loadFoldersWithFiles()
         
-        folderAdapter = FolderAdapter(folderList)
+        folderAdapter = FolderAdapter(folderList) { folderId, position ->
+            val folderRef = db.collection("folders").document(folderId)
+            val questionRef = folderRef.collection("questions")
+
+            // 폴더를 꾹 누르면 삭제 버튼이 뜸
+            questionRef.get()
+                .addOnSuccessListener { snapshot ->
+                    val batch = db.batch()
+                    for (doc in snapshot.documents) {
+                        batch.delete(doc.reference)
+                    }
+                    batch.delete(folderRef)
+                    batch.commit()
+                        . addOnSuccessListener {
+                            folderList.removeAt(position)
+                            folderAdapter.notifyItemRemoved(position)
+                            Toast.makeText(this, "폴더 삭제 완료", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "폴더 삭제 실패: ${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+
+        }
+
         binding.folderRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.folderRecyclerView.adapter = folderAdapter
         binding.folderRecyclerView.addItemDecoration(DividerItemDecoration(
@@ -178,6 +202,7 @@ class MainActivity : AppCompatActivity() {
 
                             for (questionDoc in questionSnapshot.documents) {
                                 val file = FileData(
+                                    id = questionDoc.id,
                                     question = questionDoc.getString("문제") ?: "",
                                     choice1 = questionDoc.getString("1번") ?: "",
                                     choice2 = questionDoc.getString("2번") ?: "",

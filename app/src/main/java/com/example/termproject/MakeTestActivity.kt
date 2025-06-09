@@ -22,8 +22,6 @@ import java.io.File
 // 시험 만들기
 class MakeTestActivity : AppCompatActivity() {
     lateinit var binding: ActivityMaketestBinding
-    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
     lateinit var cameraUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +68,9 @@ class MakeTestActivity : AppCompatActivity() {
                 .show()
         }
 
-        // 시험 문제 만들고 저장 버튼 누르면 다음 화면에 뜰 내용 저장
+        val folderId = intent.getStringExtra("fId") ?: ""
+
+        // 시험 문제 만들고 저장 버튼 누르면 다음 화면에 뜰 내용
         binding.saveBtn.setOnClickListener {
             val question = binding.inputQuestion.text.toString()
             val choice1 = binding.inputChoice1.text.toString()
@@ -82,7 +82,14 @@ class MakeTestActivity : AppCompatActivity() {
             if (question.isEmpty() || choice1.isEmpty() || choice2.isEmpty() || choice3.isEmpty() || answer.isEmpty()) {
                 Toast.makeText(this, "모든 항목을 입력해주세요.", Toast.LENGTH_SHORT).show()
             } else {
-                writeFirebase(question, choice1, choice2, choice3, answer)
+                val saveConfirmIntent = Intent(this, SaveConfirmActivity::class.java)
+                saveConfirmIntent.putExtra("fId", folderId)
+                saveConfirmIntent.putExtra("문제", question)
+                saveConfirmIntent.putExtra("1번", choice1)
+                saveConfirmIntent.putExtra("2번", choice2)
+                saveConfirmIntent.putExtra("3번", choice3)
+                saveConfirmIntent.putExtra("정답", answer)
+                startActivity(saveConfirmIntent)
             }
         }
 
@@ -92,52 +99,19 @@ class MakeTestActivity : AppCompatActivity() {
         }
     }
 
-    fun uploadImageFirebase(uri: Uri, callback: (imageUrl: String) -> Unit) {
-        val storageRef = FirebaseStorage.getInstance().reference
-        val imgRef = storageRef.child("question_images/${System.currentTimeMillis()}.jpg")
-
-        imgRef.putFile(uri)
-            .addOnSuccessListener {
-                imgRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-                    callback(downloadUrl.toString())
-                }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    fun writeFirebase(question: String, choice1: String, choice2: String, choice3: String, answer: String) {
-        val written = mapOf(
-            "문제" to question,
-            "1번" to choice1,
-            "2번" to choice2,
-            "3번" to choice3,
-            "정답" to answer,
-        )
-
-        val folderId = intent.getStringExtra("fId") ?: ""
-
-        val colRef: CollectionReference = db
-            .collection("folders")
-            .document(folderId)
-            .collection("questions")
-
-        val docRef: Task<DocumentReference> = colRef.add(written)
-
-        docRef.addOnSuccessListener {
-            Toast.makeText(this, "저장 성공!", Toast.LENGTH_SHORT).show()
-
-            // folderID, questionId를 SaveConfirmActivity 로 넘기기
-            val saveConfirmIntent = Intent(this, SaveConfirmActivity::class.java)
-            saveConfirmIntent.putExtra("fId", folderId)
-            saveConfirmIntent.putExtra("qId", it.id)
-            startActivity(saveConfirmIntent)
-        }
-
-        docRef.addOnFailureListener {
-            Toast.makeText(this, "저장 실패!", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    fun uploadImageFirebase(uri: Uri, callback: (imageUrl: String) -> Unit) {
+//        val storageRef = FirebaseStorage.getInstance().reference
+//        val imgRef = storageRef.child("question_images/${System.currentTimeMillis()}.jpg")
+//
+//        imgRef.putFile(uri)
+//            .addOnSuccessListener {
+//                imgRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+//                    callback(downloadUrl.toString())
+//                }
+//            }
+//            .addOnFailureListener {
+//                Toast.makeText(this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show()
+//            }
+//    }
 }
 

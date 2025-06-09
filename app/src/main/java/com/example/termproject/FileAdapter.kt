@@ -1,12 +1,22 @@
 package com.example.termproject
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.termproject.databinding.ItemFileBinding
 
-class FileAdapter(private val files: List<FileData>) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
+class FileAdapter(
+    private val files: MutableList<FileData>,
+    private val folderId: String,
+    private  val onDelete: (questionId: String, position: Int) -> Unit
+) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
+
+    fun removeItem(position: Int) {
+        files.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     private fun shortenFileName(name: String, maxLen: Int = 12): String {
         return if (name.length > maxLen) {
@@ -40,6 +50,18 @@ class FileAdapter(private val files: List<FileData>) : RecyclerView.Adapter<File
             intent.putExtra("choice3", file.choice3)
             intent.putExtra("answer", file.answer)
             context.startActivity(intent)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            AlertDialog.Builder(holder.itemView.context)
+                .setTitle("삭제 확인")
+                .setMessage("이 파일을 삭제하시겠습니까?")
+                .setPositiveButton("삭제") { _, _ ->
+                    onDelete(file.id, position)
+                }
+                .setNegativeButton("취소", null)
+                .show()
+            true
         }
     }
 }

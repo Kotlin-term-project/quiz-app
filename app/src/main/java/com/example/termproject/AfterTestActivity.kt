@@ -78,6 +78,7 @@ class AfterTestActivity: AppCompatActivity() {
                         correctAnswers[question] = answer
                         questionList.add(
                             FileData(
+                                id = folderId,
                                 question = question,
                                 choice1 = choice1,
                                 choice2 = choice2,

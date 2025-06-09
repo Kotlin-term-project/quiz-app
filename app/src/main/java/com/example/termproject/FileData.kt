@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class FileData(
+    val id: String,
     val question: String,
     val choice1: String,
     val choice2: String,
@@ -18,11 +19,13 @@ data class FileData(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString(),
         parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(question)
         parcel.writeString(choice1)
         parcel.writeString(choice2)
