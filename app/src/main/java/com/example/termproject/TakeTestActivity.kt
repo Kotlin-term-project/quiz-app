@@ -82,10 +82,6 @@ class TakeTestActivity : AppCompatActivity() {
             loadQuestion(0)
         }
 
-        // 데이터 베이스는 받아왔으니 나중에 추가 구현
-        // binding.folderIdText.text = folderId
-        // binding.timeText.text = time
-
         // 미리 folderId 받아오기
         db.collection("folders")
             .whereEqualTo("폴더명", folderName)

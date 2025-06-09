@@ -152,6 +152,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        loadFoldersWithFiles()
+    }
+
     // 폴더명을 저장해서 MakeTestActivity에 넘길 함수
     fun writeFirebase(folderName: String) {
         val written = mapOf(

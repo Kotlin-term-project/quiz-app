@@ -11,10 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="GPT 응답이 여기에 표시됩니다."
+        android:text="GPT 응답 표시"
         android:textSize="16sp"
         android:textColor="@android:color/black" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:text="저장"
+        android:textStyle="bold"
+        android:textColor="#000" />
 
 </LinearLayout>
 

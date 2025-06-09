@@ -26,6 +26,8 @@ class AfterTestActivity: AppCompatActivity() {
         binding = ActivityAftertestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val folderId = intent.getStringExtra("folderId") ?: return
+
         comparisonLogic()
 
         // 오답 보기 버튼 구현
@@ -39,6 +41,7 @@ class AfterTestActivity: AppCompatActivity() {
                 return@setOnClickListener
             }
             val intent = Intent(this, ShowWrongAnswerActivity::class.java)
+            intent.putExtra("folderId", folderId)
             intent.putParcelableArrayListExtra("wrongList", ArrayList(wrongList))
             startActivity(intent)
         }
