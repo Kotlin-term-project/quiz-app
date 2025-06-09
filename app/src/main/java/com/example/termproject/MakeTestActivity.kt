@@ -3,6 +3,7 @@ package com.example.termproject
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
@@ -144,6 +145,8 @@ class MakeTestActivity : AppCompatActivity() {
                 .trim()
 
             binding.inputQuestion.setText(cleanedText)
+            binding.showImage.setImageDrawable(null)
+            binding.showImage.visibility = View.GONE
             Toast.makeText(this, "텍스트 추출 완료", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "이미지 불러오기 실패", Toast.LENGTH_SHORT).show()
@@ -170,20 +173,5 @@ class MakeTestActivity : AppCompatActivity() {
             outputStream.close()
         }
     }
-
-//    fun uploadImageFirebase(uri: Uri, callback: (imageUrl: String) -> Unit) {
-//        val storageRef = FirebaseStorage.getInstance().reference
-//        val imgRef = storageRef.child("question_images/${System.currentTimeMillis()}.jpg")
-//
-//        imgRef.putFile(uri)
-//            .addOnSuccessListener {
-//                imgRef.downloadUrl.addOnSuccessListener { downloadUrl ->
-//                    callback(downloadUrl.toString())
-//                }
-//            }
-//            .addOnFailureListener {
-//                Toast.makeText(this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show()
-//            }
-//    }
 }
 

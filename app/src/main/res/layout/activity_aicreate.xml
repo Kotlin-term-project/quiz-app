@@ -7,13 +7,22 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:text="Chat gpt"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="#000" />
+
+    <TextView
         android:id="@+id/response"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="GPT 응답 표시"
-        android:textSize="16sp"
-        android:textColor="@android:color/black" />
+        android:padding="30dp"
+        android:hint="문제 생성 중..."
+        android:textSize="18sp"
+        android:textColor="#000" />
 
     <View
         android:layout_width="match_parent"
@@ -24,10 +33,15 @@
         android:id="@+id/save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_marginVertical="30dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ai_question_save_bg"
         android:text="저장"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textColor="#000" />
+        android:textColor="#fff" />
 
 </LinearLayout>
 

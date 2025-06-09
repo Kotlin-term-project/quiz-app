@@ -126,6 +126,7 @@ class TakeTestActivity : AppCompatActivity() {
             writeFirebase(currentQuestion.question)
 
             val intent = Intent(this, AfterTestActivity::class.java)
+            intent.putExtra("folderName", folderName)
             intent.putExtra("folderId", folderId)
             startActivity(intent)
             finish()

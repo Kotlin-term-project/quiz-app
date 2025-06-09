@@ -33,6 +33,7 @@ class AICreateActivity: AppCompatActivity() {
         binding = ActivityAicreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val folderName = intent.getStringExtra("folderName") ?: return
         val folderId = intent.getStringExtra("folderId") ?: return
 
         binding.saveBtn.setOnClickListener {
@@ -57,7 +58,7 @@ class AICreateActivity: AppCompatActivity() {
                         Toast.makeText(this, "저장 실패: ${it.message}.", Toast.LENGTH_SHORT).show()
                     }
             } else {
-                Toast.makeText(this, "문제를 먼저 생성해주세여.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "문제를 먼저 생성해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -69,7 +70,8 @@ class AICreateActivity: AppCompatActivity() {
 
         val prompt = """
             다음은 객관식 문제입니다.
-            이 문제와 유사한 새로운 문제를 하나 생성해주세요.
+            이 문제의 주제는 '${folderName}'입니다.
+            이 문제와 관련된 주제의 유사한 문제를 하나 생성해주세요.
             
             [문제]
             ${data.question}
@@ -78,16 +80,26 @@ class AICreateActivity: AppCompatActivity() {
             ${data.choice1}
             ${data.choice2}
             ${data.choice3}
+            
+            [정답]
             ${data.answer}
             
-            선택지는 틀린 답안 3개와 정답 하나로 구성됩니다.
+            * 조건
+            - [선택지]에 제시된 3개의 답은 모두 오답입니다.
+            - [정답] 항목에 제시된 답만 정답입니다.
+            - 새로 생성할 문제도 같은 형식으로 만들어야 합니다.
+            - 아래 형식을 반드시 그대로 따라야 합니다.
+            - 절대 다른 형식으로 출력하지 마세요.
             
-            형식은 아래와 같이 해주세요.
-            문제 : ...
-            1번 : ...
-            2번 : ...
-            3번 : ...
-            정답 : ...
+            반드시 아래 형식으로 출력하세요 :
+            
+            문제 : (여기에 문제를 작성)
+            
+            1번 : (오답)
+            2번 : (오답)
+            3번 : (오답)
+            
+            정답 : (정답)
         """.trimIndent()
 
         val apiKey = BuildConfig.OPENAI_API_KEY

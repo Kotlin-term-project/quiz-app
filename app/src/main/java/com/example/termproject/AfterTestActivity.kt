@@ -26,6 +26,7 @@ class AfterTestActivity: AppCompatActivity() {
         binding = ActivityAftertestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val folderName = intent.getStringExtra("folderName") ?: return
         val folderId = intent.getStringExtra("folderId") ?: return
 
         comparisonLogic()
@@ -41,6 +42,7 @@ class AfterTestActivity: AppCompatActivity() {
                 return@setOnClickListener
             }
             val intent = Intent(this, ShowWrongAnswerActivity::class.java)
+            intent.putExtra("folderName", folderName)
             intent.putExtra("folderId", folderId)
             intent.putParcelableArrayListExtra("wrongList", ArrayList(wrongList))
             startActivity(intent)

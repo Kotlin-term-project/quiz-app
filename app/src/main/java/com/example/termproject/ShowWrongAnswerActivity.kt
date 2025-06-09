@@ -18,6 +18,7 @@ class ShowWrongAnswerActivity: AppCompatActivity() {
         binding = ActivityShowwronganswerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val folderName = intent.getStringExtra("folderName") ?: return
         val folderId = intent.getStringExtra("folderId") ?: return
         wrongList = intent.getParcelableArrayListExtra<FileData>("wrongList") ?: arrayListOf()
 
@@ -47,6 +48,7 @@ class ShowWrongAnswerActivity: AppCompatActivity() {
         // AI 문제 생성 버튼 구현
         binding.AICreateBtn.setOnClickListener {
             val intent = Intent(this, AICreateActivity::class.java)
+            intent.putExtra("folderName", folderName)
             intent.putExtra("folderId", folderId)
             intent.putExtra("data", wrongList[currentWrongNum])
             startActivity(intent)

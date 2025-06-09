@@ -78,10 +78,10 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
     implementation(libs.json)
+    implementation(libs.tess)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.tess)        
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
 }
