@@ -22,9 +22,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
 
     private val db = FirebaseFirestore.getInstance()
-
     private val folderList = mutableListOf<Folder>()
     private lateinit var folderAdapter: FolderAdapter
+
+    private var reloadFolders = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             R.string.open_drawer,
             R.string.close_drawer
         )
+
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -82,8 +84,6 @@ class MainActivity : AppCompatActivity() {
         // 폴더 추가하기 버튼
         binding.addFolderBtn.setOnClickListener {
 
-            // material Dialog 사용 해서 UI 자체 제작 고민 중
-
             // 폴더명 입력 받기
             val builder = android.app.AlertDialog.Builder(this)
             builder.setTitle("폴더명")
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             builder.setView(input)
 
             // 저장 버튼 클릭 시
-            builder.setPositiveButton("저장") { dialog, which ->
+            builder.setPositiveButton("저장") { _, _ ->
                 val folderName = input.text.toString()
 
                 if (folderName.isNotEmpty()) {
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             // 취소 버튼 클릭 시
-            builder.setNegativeButton("취소") { dialog, which ->
+            builder.setNegativeButton("취소") { dialog, _ ->
                 dialog.cancel()
             }
 
@@ -155,7 +155,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        loadFoldersWithFiles()
+        if (reloadFolders) {
+            loadFoldersWithFiles()
+            reloadFolders = false
+        }
     }
 
     // 폴더명을 저장해서 MakeTestActivity에 넘길 함수
@@ -169,12 +172,16 @@ class MainActivity : AppCompatActivity() {
         val docRef: Task<DocumentReference> = colRef.add(written)
 
         docRef.addOnSuccessListener { documentRef ->
-            Toast.makeText(this, "폴더 생성 성공!", Toast.LENGTH_SHORT).show()
+            documentRef.get().addOnSuccessListener { snapshot ->
+                val id = snapshot.id
+                val name = snapshot.getString("폴더명") ?: ""
+                val folder = Folder(id, name, false)
 
-            // 폴더 리스트에 Folder 객체 추가
-            val newFolder = Folder(documentRef.id, folderName)
-            folderList.add(newFolder)
-            folderAdapter.notifyItemInserted(folderList.size - 1)
+                folderList.add(folder)
+                folderAdapter.notifyItemInserted(folderList.size - 1)
+
+                Toast.makeText(this, "폴더 생성 성공!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         docRef.addOnFailureListener {
@@ -184,19 +191,22 @@ class MainActivity : AppCompatActivity() {
 
     fun loadFoldersWithFiles() {
 
+        val expandedFolderIds = folderList.filter { it.isExpanded }.map { it.id }.toSet()
+
+        folderList.clear()
+
         // 문제를 저장한 폴더를 불러옴
         db.collection("folders")
             .orderBy("생성시간", Query.Direction.ASCENDING)    // 폴더 받아 오는 순서 지정
             .get()
             .addOnSuccessListener { folderSnapshot ->
-                folderList.clear()
-
                 val tasks = mutableListOf<com.google.android.gms.tasks.Task<*>>()
 
                 for (folderDoc in folderSnapshot.documents) {
                     val folderId = folderDoc.id
                     val folderName = folderDoc.getString("폴더명") ?: ""
-                    val folder = Folder(folderId, folderName)
+                    val isExpanded = folderId in expandedFolderIds
+                    val folder = Folder(folderId, folderName, isExpanded)
 
 
                     // 해당 폴더 안에 문제를 불러옴

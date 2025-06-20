@@ -140,15 +140,24 @@ class AICreateActivity: AppCompatActivity() {
                 Log.d("GPT", "응답 본문: $responseBody")
 
                 val reply = try {
-                    val jsonObject = JSONObject(responseBody ?: "")
-                    jsonObject
-                        .getJSONArray("choices")
-                        .getJSONObject(0)
-                        .getJSONObject("message")
-                        .getString("content")
+                    val jsonObject = JSONObject(responseBody ?: throw Exception("응답 없음"))
+
+                    // 🔥 먼저 에러 응답인지 확인
+                    if (jsonObject.has("error")) {
+                        val error = jsonObject.getJSONObject("error")
+                        val errorMsg = error.getString("message")
+                        throw Exception("OpenAI 오류: $errorMsg")
+                    }
+
+                    // 정상 구조에서 content 추출
+                    val choices = jsonObject.getJSONArray("choices")
+                    val message = choices.getJSONObject(0).getJSONObject("message")
+                    message.getString("content")
                 } catch (e: Exception) {
+                    Log.e("GPT", "파싱 실패: ${e.message}")
                     "응답 파싱 실패: ${e.message}"
                 }
+
 
                 runOnUiThread {
                     binding.response.text = reply

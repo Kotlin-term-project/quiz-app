@@ -12,13 +12,13 @@ class LoginActivity: AppCompatActivity() {
     private var auth = FirebaseAuth.getInstance()
 
     // 최초 1회 로그인 구현
-    override fun onStart() {
-        super.onStart()
-        if (auth.currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        if (auth.currentUser != null) {
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
